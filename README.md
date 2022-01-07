@@ -1,4 +1,4 @@
-![Be Klever!.](https://cdn.substack.com/image/fetch/w_1100,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F91702ea8-69da-4dab-a807-dd0325e836e9_1920x1080.png "Klever Logo")
+![Be Klever!.](https://pbs.twimg.com/profile_banners/1389545109973200896/1640750305/1500x500 "Klever Logo")
 
 # Klever Technical Challenge
 
