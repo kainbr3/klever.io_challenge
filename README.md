@@ -20,9 +20,52 @@
 
 
 ## Project Detais
-
 | Type  | Detail |
 | ------------- |:-------------:|
 | Language      | Go            |
 | Database      | SqLite        |
 | Type          | gRPC + API    |
+
+## Installation
+ Project requires [GO (Golang)](https://go.dev/) to run.
+ 
+ gRPC Files Generation:
+ ```
+protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative protobuf/service.proto
+```
+
+*service.pb.go => Responsible to Serialize and Deserialize the messages defined in service definitions
+service.grpc.pb.go => Contains the auto generated Client and Server Code that we need to implement in our own Client and Server programs*
+
+## Project Structure
+```
+📦klever-challenge
+ ┣ 📂src
+ ┃ ┣ 📂command
+ ┃ ┃ ┣ 📂client
+ ┃ ┃ ┃ ┗ 📜client.go
+ ┃ ┃ ┗ 📂server
+ ┃ ┃ ┃ ┗ 📜server.go
+ ┃ ┣ 📂infra
+ ┃ ┃ ┗ 📂database
+ ┃ ┃ ┃ ┗ 📜kleverchallenge.db
+ ┃ ┣ 📂package
+ ┃ ┃ ┣ 📂api
+ ┃ ┃ ┃ ┗ 📜api.go
+ ┃ ┃ ┣ 📂model
+ ┃ ┃ ┃ ┗ 📜model.go
+ ┃ ┃ ┣ 📂repository
+ ┃ ┃ ┃ ┗ 📜repository.go
+ ┃ ┃ ┗ 📂tool
+ ┃ ┃ ┃ ┗ 📜tool.go
+ ┃ ┣ 📂protobuf
+ ┃ ┃ ┣ 📜service.pb.go
+ ┃ ┃ ┣ 📜service.proto
+ ┃ ┃ ┗ 📜service_grpc.pb.go
+ ┃ ┣ 📜go.mod
+ ┃ ┗ 📜go.sum
+ ┣ 📜.gitignore
+ ┣ 📜LICENSE
+ ┗ 📜README.md
+ ```
+ 
