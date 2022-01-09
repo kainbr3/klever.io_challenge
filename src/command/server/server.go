@@ -42,7 +42,7 @@ func (server *CryptoServiceServer) Run() error {
 	return s.Serve(listener)
 }
 
-func (server *CryptoServiceServer) CreateNewCrypto(ctx context.Context, request *pb.NewCryptoRequest) (*pb.NewCryptoResponse, error) {
+func (server *CryptoServiceServer) CreateNewCrypto(ctx context.Context, request *pb.CreateNewCryptoRequest) (*pb.CreateNewCryptoResponse, error) {
 	log.Println("======> Received from client: New Crypto")
 	log.Printf("======> NAME: %v", request.GetName())
 	log.Printf("======> TOKEN: %v", request.GetToken())
@@ -61,7 +61,7 @@ func (server *CryptoServiceServer) CreateNewCrypto(ctx context.Context, request 
 	log.Printf("======> VOTES: %v", crypto_created.Votes)
 	fmt.Print("\n\n")
 
-	return &pb.NewCryptoResponse{
+	return &pb.CreateNewCryptoResponse{
 		Crypto: &pb.Crypto{
 			Id:    int32(crypto_created.Id),
 			Name:  crypto_created.Name,
@@ -71,9 +71,23 @@ func (server *CryptoServiceServer) CreateNewCrypto(ctx context.Context, request 
 	}, nil
 }
 
-func (server *CryptoServiceServer) GetCryptos(ctx context.Context, request *pb.ListCryptosRequest) (*pb.ListCryptosResponse, error) {
-	cryptos := repo.FindAllCryptosSortedByTopVotes(server.conn.DB)
-	fmt.Print(cryptos)
+func (server *CryptoServiceServer) ListCryptos(ctx context.Context, request *pb.ListCryptosRequest) (*pb.ListCryptosResponse, error) {
+	var cryptos []m.CryptoCurrency
+
+	switch request.Sortparam {
+	case "name":
+		cryptos = repo.FindAllCryptosSortedByName(server.conn.DB)
+	case "token":
+		cryptos = repo.FindAllCryptosSortedByToken(server.conn.DB)
+	case "votes":
+		cryptos = repo.FindAllCryptosSortedByTopVotes(server.conn.DB)
+	default:
+		cryptos = repo.FindAllCryptos(server.conn.DB)
+	}
+
+	log.Print("======> Crypto List from Database\n")
+	log.Println(cryptos)
+	fmt.Print("\n\n")
 
 	var cryptos_list *pb.ListCryptosResponse = &pb.ListCryptosResponse{}
 
@@ -90,6 +104,80 @@ func (server *CryptoServiceServer) GetCryptos(ctx context.Context, request *pb.L
 	return cryptos_list, nil
 }
 
+func (server *CryptoServiceServer) DeleteCrypto(ctx context.Context, request *pb.DeleteCryptoRequest) (*pb.EmptyResponse, error) {
+	repo.RemoveCryptoById(server.conn.DB, int(request.GetId()))
+	log.Print("======> Crypto Deleted By Id: ", request.GetId())
+	fmt.Print("\n\n")
+	return &pb.EmptyResponse{}, nil
+}
+
+func (server *CryptoServiceServer) UpdateCrypto(ctx context.Context, request *pb.UpdateCryptoRequest) (*pb.UpdateCryptoResponse, error) {
+	crypto_old := repo.FindCryptoById(server.conn.DB, int(request.GetCrypto().GetId()))
+
+	log.Println("======> Received from client: Update Crypto")
+	log.Println("======> Old state")
+	log.Printf("======> ID: %v", crypto_old.Id)
+	log.Printf("======> NAME: %v", crypto_old.Name)
+	log.Printf("======> TOKEN: %v", crypto_old.Token)
+	log.Printf("======> VOTES: %v", crypto_old.Votes)
+	fmt.Print("\n\n")
+
+	crypto_updated := repo.UpdateCrypto(server.conn.DB, m.CryptoCurrency{
+		Id:    int(request.GetCrypto().GetId()),
+		Name:  request.GetCrypto().GetName(),
+		Token: request.GetCrypto().GetToken(),
+		Votes: int(request.GetCrypto().GetVotes()),
+	})
+
+	log.Println("======> New state")
+	log.Printf("======> ID: %v", crypto_updated.Id)
+	log.Printf("======> NAME: %v", crypto_updated.Name)
+	log.Printf("======> TOKEN: %v", crypto_updated.Token)
+	log.Printf("======> VOTES: %v", crypto_updated.Votes)
+	fmt.Print("\n\n")
+
+	return &pb.UpdateCryptoResponse{
+		Crypto: &pb.Crypto{
+			Id:    int32(crypto_updated.Id),
+			Name:  crypto_updated.Name,
+			Token: crypto_updated.Token,
+			Votes: int32(crypto_updated.Votes),
+		},
+	}, nil
+}
+
+func (server *CryptoServiceServer) UpvoteCrypto(ctx context.Context, request *pb.UpvoteCryptoRequest) (*pb.EmptyResponse, error) {
+	repo.UpvoteCryptoById(server.conn.DB, int(request.GetId()))
+	log.Print("======> Upvote Registred to Crypto Id: ", request.GetId())
+	fmt.Print("\n\n")
+	return &pb.EmptyResponse{}, nil
+}
+
+func (server *CryptoServiceServer) DownvoteCrypto(ctx context.Context, request *pb.DownvoteCryptoRequest) (*pb.EmptyResponse, error) {
+	repo.DownvoteCryptoById(server.conn.DB, int(request.GetId()))
+	log.Print("======> Downvote Registred to Crypto Id: ", request.GetId())
+	fmt.Print("\n\n")
+	return &pb.EmptyResponse{}, nil
+}
+
+func (server *CryptoServiceServer) GetCryptoById(ctx context.Context, request *pb.GetCryptoByIdRequest) (*pb.GetCryptoByIdResponse, error) {
+	crypto_found := repo.FindCryptoById(server.conn.DB, int(request.GetId()))
+	log.Print("======> Crypto Found By Id: ", request.GetId())
+	fmt.Print("\n\n")
+	return &pb.GetCryptoByIdResponse{
+		Crypto: &pb.Crypto{
+			Id:    int32(crypto_found.Id),
+			Name:  crypto_found.Name,
+			Token: crypto_found.Token,
+			Votes: int32(crypto_found.Votes),
+		},
+	}, nil
+}
+
+// func (server *CryptoServiceServer) ObserveCrypto(ctx context.Context, request *pb.ObserveCryptoRequest) (pb.CryptoService_ObserveCryptoClient, error) {
+// 	return nil, nil
+// }
+
 func main() {
 	fmt.Print("\n\n")
 	log.Println("======> STARTING THE gRPC SERVER")
@@ -104,33 +192,4 @@ func main() {
 	if err := cryptoServer.Run(); err != nil {
 		log.Fatalf("======> Failed to serve: \n%v", err)
 	}
-}
-
-func RepositoryTest() {
-	//Connect to the Database
-	// klever := repo.DatabaseInit()
-	// fmt.Println("======> Databased Ready: ", klever.DB.Stats())
-
-	//Function to Create the main Tables and Populate it with some Data
-	//repo.BuildDatabase(klever.DB, true)
-
-	//Some Query Tests
-	// fmt.Println("======> Query Result:", repo.FindAllCryptos(klever.DB))
-	// fmt.Println("======> Query Result:", repo.FindAllCryptosSortedByName(klever.DB))
-	// fmt.Println("======> Query Result:", repo.FindAllCryptosSortedByToken(klever.DB))
-	// fmt.Println("======> Query Result:\n\n", repo.FindAllCryptosSortedByTopVotes(klever.DB))
-	// fmt.Println("======> Query Result:\n\n", repo.FindAllCryptosSortedByLeastVotes(klever.DB))
-	// fmt.Println("======> Query Result:", repo.FindCryptoById(klever.DB, 1))
-	// fmt.Println("======> Query Result:", repo.FindCryptoByName(klever.DB, "Klever"))
-	// fmt.Println("======> Query Result:", repo.FindCryptoByToken(klever.DB, "BTC"))
-
-	//repo.AddCrypto(klever.DB, m.CryptoCurrency{Name: "Teste Crypto", Token: "TST"})
-	//repo.RemoveCryptoById(klever.DB, 8)
-	//repo.CleanTable(klever.DB, "cryptoCurrencies")
-	//repo.ReseedTable(klever.DB, "cryptoCurrencies")
-	//repo.DropTable(klever.DB, "cryptoCurrencies")
-	//repo.ExecuteCustomStatement(klever.DB, t.DropAllTables)
-	//repo.ExecuteCustomStatement(klever.DB, t.RatingTableQuery)
-	// repo.UpvoteCryptoById(klever.DB, 7)
-	// repo.DownvoteCryptoById(klever.DB, 3)
 }

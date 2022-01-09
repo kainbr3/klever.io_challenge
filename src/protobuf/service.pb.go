@@ -91,17 +91,14 @@ func (x *Crypto) GetVotes() int32 {
 	return 0
 }
 
-type NewCryptoRequest struct {
+type EmptyRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-
-	Name  string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	Token string `protobuf:"bytes,2,opt,name=token,proto3" json:"token,omitempty"`
 }
 
-func (x *NewCryptoRequest) Reset() {
-	*x = NewCryptoRequest{}
+func (x *EmptyRequest) Reset() {
+	*x = EmptyRequest{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_protobuf_service_proto_msgTypes[1]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -109,13 +106,13 @@ func (x *NewCryptoRequest) Reset() {
 	}
 }
 
-func (x *NewCryptoRequest) String() string {
+func (x *EmptyRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*NewCryptoRequest) ProtoMessage() {}
+func (*EmptyRequest) ProtoMessage() {}
 
-func (x *NewCryptoRequest) ProtoReflect() protoreflect.Message {
+func (x *EmptyRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_protobuf_service_proto_msgTypes[1]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -127,35 +124,19 @@ func (x *NewCryptoRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use NewCryptoRequest.ProtoReflect.Descriptor instead.
-func (*NewCryptoRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use EmptyRequest.ProtoReflect.Descriptor instead.
+func (*EmptyRequest) Descriptor() ([]byte, []int) {
 	return file_protobuf_service_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *NewCryptoRequest) GetName() string {
-	if x != nil {
-		return x.Name
-	}
-	return ""
-}
-
-func (x *NewCryptoRequest) GetToken() string {
-	if x != nil {
-		return x.Token
-	}
-	return ""
-}
-
-type NewCryptoResponse struct {
+type EmptyResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-
-	Crypto *Crypto `protobuf:"bytes,1,opt,name=crypto,proto3" json:"crypto,omitempty"`
 }
 
-func (x *NewCryptoResponse) Reset() {
-	*x = NewCryptoResponse{}
+func (x *EmptyResponse) Reset() {
+	*x = EmptyResponse{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_protobuf_service_proto_msgTypes[2]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -163,13 +144,13 @@ func (x *NewCryptoResponse) Reset() {
 	}
 }
 
-func (x *NewCryptoResponse) String() string {
+func (x *EmptyResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*NewCryptoResponse) ProtoMessage() {}
+func (*EmptyResponse) ProtoMessage() {}
 
-func (x *NewCryptoResponse) ProtoReflect() protoreflect.Message {
+func (x *EmptyResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_protobuf_service_proto_msgTypes[2]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -181,22 +162,17 @@ func (x *NewCryptoResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use NewCryptoResponse.ProtoReflect.Descriptor instead.
-func (*NewCryptoResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use EmptyResponse.ProtoReflect.Descriptor instead.
+func (*EmptyResponse) Descriptor() ([]byte, []int) {
 	return file_protobuf_service_proto_rawDescGZIP(), []int{2}
-}
-
-func (x *NewCryptoResponse) GetCrypto() *Crypto {
-	if x != nil {
-		return x.Crypto
-	}
-	return nil
 }
 
 type ListCryptosRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
+
+	Sortparam string `protobuf:"bytes,1,opt,name=sortparam,proto3" json:"sortparam,omitempty"`
 }
 
 func (x *ListCryptosRequest) Reset() {
@@ -229,6 +205,13 @@ func (x *ListCryptosRequest) ProtoReflect() protoreflect.Message {
 // Deprecated: Use ListCryptosRequest.ProtoReflect.Descriptor instead.
 func (*ListCryptosRequest) Descriptor() ([]byte, []int) {
 	return file_protobuf_service_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *ListCryptosRequest) GetSortparam() string {
+	if x != nil {
+		return x.Sortparam
+	}
+	return ""
 }
 
 type ListCryptosResponse struct {
@@ -278,6 +261,531 @@ func (x *ListCryptosResponse) GetCryptos() []*Crypto {
 	return nil
 }
 
+type GetCryptoByIdRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Id int32 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+}
+
+func (x *GetCryptoByIdRequest) Reset() {
+	*x = GetCryptoByIdRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_protobuf_service_proto_msgTypes[5]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetCryptoByIdRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetCryptoByIdRequest) ProtoMessage() {}
+
+func (x *GetCryptoByIdRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_protobuf_service_proto_msgTypes[5]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetCryptoByIdRequest.ProtoReflect.Descriptor instead.
+func (*GetCryptoByIdRequest) Descriptor() ([]byte, []int) {
+	return file_protobuf_service_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *GetCryptoByIdRequest) GetId() int32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+type GetCryptoByIdResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Crypto *Crypto `protobuf:"bytes,1,opt,name=crypto,proto3" json:"crypto,omitempty"`
+}
+
+func (x *GetCryptoByIdResponse) Reset() {
+	*x = GetCryptoByIdResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_protobuf_service_proto_msgTypes[6]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetCryptoByIdResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetCryptoByIdResponse) ProtoMessage() {}
+
+func (x *GetCryptoByIdResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_protobuf_service_proto_msgTypes[6]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetCryptoByIdResponse.ProtoReflect.Descriptor instead.
+func (*GetCryptoByIdResponse) Descriptor() ([]byte, []int) {
+	return file_protobuf_service_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *GetCryptoByIdResponse) GetCrypto() *Crypto {
+	if x != nil {
+		return x.Crypto
+	}
+	return nil
+}
+
+type CreateNewCryptoRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Name  string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Token string `protobuf:"bytes,2,opt,name=token,proto3" json:"token,omitempty"`
+}
+
+func (x *CreateNewCryptoRequest) Reset() {
+	*x = CreateNewCryptoRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_protobuf_service_proto_msgTypes[7]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *CreateNewCryptoRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateNewCryptoRequest) ProtoMessage() {}
+
+func (x *CreateNewCryptoRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_protobuf_service_proto_msgTypes[7]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateNewCryptoRequest.ProtoReflect.Descriptor instead.
+func (*CreateNewCryptoRequest) Descriptor() ([]byte, []int) {
+	return file_protobuf_service_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *CreateNewCryptoRequest) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *CreateNewCryptoRequest) GetToken() string {
+	if x != nil {
+		return x.Token
+	}
+	return ""
+}
+
+type CreateNewCryptoResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Crypto *Crypto `protobuf:"bytes,1,opt,name=crypto,proto3" json:"crypto,omitempty"`
+}
+
+func (x *CreateNewCryptoResponse) Reset() {
+	*x = CreateNewCryptoResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_protobuf_service_proto_msgTypes[8]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *CreateNewCryptoResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateNewCryptoResponse) ProtoMessage() {}
+
+func (x *CreateNewCryptoResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_protobuf_service_proto_msgTypes[8]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateNewCryptoResponse.ProtoReflect.Descriptor instead.
+func (*CreateNewCryptoResponse) Descriptor() ([]byte, []int) {
+	return file_protobuf_service_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *CreateNewCryptoResponse) GetCrypto() *Crypto {
+	if x != nil {
+		return x.Crypto
+	}
+	return nil
+}
+
+type UpdateCryptoRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Crypto *Crypto `protobuf:"bytes,1,opt,name=crypto,proto3" json:"crypto,omitempty"`
+}
+
+func (x *UpdateCryptoRequest) Reset() {
+	*x = UpdateCryptoRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_protobuf_service_proto_msgTypes[9]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UpdateCryptoRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateCryptoRequest) ProtoMessage() {}
+
+func (x *UpdateCryptoRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_protobuf_service_proto_msgTypes[9]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateCryptoRequest.ProtoReflect.Descriptor instead.
+func (*UpdateCryptoRequest) Descriptor() ([]byte, []int) {
+	return file_protobuf_service_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *UpdateCryptoRequest) GetCrypto() *Crypto {
+	if x != nil {
+		return x.Crypto
+	}
+	return nil
+}
+
+type UpdateCryptoResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Crypto *Crypto `protobuf:"bytes,1,opt,name=crypto,proto3" json:"crypto,omitempty"`
+}
+
+func (x *UpdateCryptoResponse) Reset() {
+	*x = UpdateCryptoResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_protobuf_service_proto_msgTypes[10]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UpdateCryptoResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateCryptoResponse) ProtoMessage() {}
+
+func (x *UpdateCryptoResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_protobuf_service_proto_msgTypes[10]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateCryptoResponse.ProtoReflect.Descriptor instead.
+func (*UpdateCryptoResponse) Descriptor() ([]byte, []int) {
+	return file_protobuf_service_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *UpdateCryptoResponse) GetCrypto() *Crypto {
+	if x != nil {
+		return x.Crypto
+	}
+	return nil
+}
+
+type DeleteCryptoRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Id int32 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+}
+
+func (x *DeleteCryptoRequest) Reset() {
+	*x = DeleteCryptoRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_protobuf_service_proto_msgTypes[11]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *DeleteCryptoRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteCryptoRequest) ProtoMessage() {}
+
+func (x *DeleteCryptoRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_protobuf_service_proto_msgTypes[11]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteCryptoRequest.ProtoReflect.Descriptor instead.
+func (*DeleteCryptoRequest) Descriptor() ([]byte, []int) {
+	return file_protobuf_service_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *DeleteCryptoRequest) GetId() int32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+type UpvoteCryptoRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Id int32 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+}
+
+func (x *UpvoteCryptoRequest) Reset() {
+	*x = UpvoteCryptoRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_protobuf_service_proto_msgTypes[12]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UpvoteCryptoRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpvoteCryptoRequest) ProtoMessage() {}
+
+func (x *UpvoteCryptoRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_protobuf_service_proto_msgTypes[12]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpvoteCryptoRequest.ProtoReflect.Descriptor instead.
+func (*UpvoteCryptoRequest) Descriptor() ([]byte, []int) {
+	return file_protobuf_service_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *UpvoteCryptoRequest) GetId() int32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+type DownvoteCryptoRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Id int32 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+}
+
+func (x *DownvoteCryptoRequest) Reset() {
+	*x = DownvoteCryptoRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_protobuf_service_proto_msgTypes[13]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *DownvoteCryptoRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DownvoteCryptoRequest) ProtoMessage() {}
+
+func (x *DownvoteCryptoRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_protobuf_service_proto_msgTypes[13]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DownvoteCryptoRequest.ProtoReflect.Descriptor instead.
+func (*DownvoteCryptoRequest) Descriptor() ([]byte, []int) {
+	return file_protobuf_service_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *DownvoteCryptoRequest) GetId() int32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+type ObserveCryptoRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Id int32 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+}
+
+func (x *ObserveCryptoRequest) Reset() {
+	*x = ObserveCryptoRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_protobuf_service_proto_msgTypes[14]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ObserveCryptoRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ObserveCryptoRequest) ProtoMessage() {}
+
+func (x *ObserveCryptoRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_protobuf_service_proto_msgTypes[14]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ObserveCryptoRequest.ProtoReflect.Descriptor instead.
+func (*ObserveCryptoRequest) Descriptor() ([]byte, []int) {
+	return file_protobuf_service_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *ObserveCryptoRequest) GetId() int32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+type ObserveCryptoResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Crypto *Crypto `protobuf:"bytes,1,opt,name=crypto,proto3" json:"crypto,omitempty"`
+}
+
+func (x *ObserveCryptoResponse) Reset() {
+	*x = ObserveCryptoResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_protobuf_service_proto_msgTypes[15]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ObserveCryptoResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ObserveCryptoResponse) ProtoMessage() {}
+
+func (x *ObserveCryptoResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_protobuf_service_proto_msgTypes[15]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ObserveCryptoResponse.ProtoReflect.Descriptor instead.
+func (*ObserveCryptoResponse) Descriptor() ([]byte, []int) {
+	return file_protobuf_service_proto_rawDescGZIP(), []int{15}
+}
+
+func (x *ObserveCryptoResponse) GetCrypto() *Crypto {
+	if x != nil {
+		return x.Crypto
+	}
+	return nil
+}
+
 var File_protobuf_service_proto protoreflect.FileDescriptor
 
 var file_protobuf_service_proto_rawDesc = []byte{
@@ -288,36 +796,100 @@ var file_protobuf_service_proto_rawDesc = []byte{
 	0x6e, 0x61, 0x6d, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65,
 	0x12, 0x14, 0x0a, 0x05, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52,
 	0x05, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x12, 0x14, 0x0a, 0x05, 0x76, 0x6f, 0x74, 0x65, 0x73, 0x18,
-	0x04, 0x20, 0x01, 0x28, 0x05, 0x52, 0x05, 0x76, 0x6f, 0x74, 0x65, 0x73, 0x22, 0x3c, 0x0a, 0x10,
-	0x4e, 0x65, 0x77, 0x43, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
-	0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04,
-	0x6e, 0x61, 0x6d, 0x65, 0x12, 0x14, 0x0a, 0x05, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x18, 0x02, 0x20,
-	0x01, 0x28, 0x09, 0x52, 0x05, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x22, 0x3d, 0x0a, 0x11, 0x4e, 0x65,
-	0x77, 0x43, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12,
+	0x04, 0x20, 0x01, 0x28, 0x05, 0x52, 0x05, 0x76, 0x6f, 0x74, 0x65, 0x73, 0x22, 0x0e, 0x0a, 0x0c,
+	0x45, 0x6d, 0x70, 0x74, 0x79, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x22, 0x0f, 0x0a, 0x0d,
+	0x45, 0x6d, 0x70, 0x74, 0x79, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x32, 0x0a,
+	0x12, 0x4c, 0x69, 0x73, 0x74, 0x43, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x73, 0x52, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x12, 0x1c, 0x0a, 0x09, 0x73, 0x6f, 0x72, 0x74, 0x70, 0x61, 0x72, 0x61, 0x6d,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x73, 0x6f, 0x72, 0x74, 0x70, 0x61, 0x72, 0x61,
+	0x6d, 0x22, 0x41, 0x0a, 0x13, 0x4c, 0x69, 0x73, 0x74, 0x43, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x73,
+	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x2a, 0x0a, 0x07, 0x63, 0x72, 0x79, 0x70,
+	0x74, 0x6f, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x10, 0x2e, 0x70, 0x72, 0x6f, 0x74,
+	0x6f, 0x62, 0x75, 0x66, 0x2e, 0x43, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x52, 0x07, 0x63, 0x72, 0x79,
+	0x70, 0x74, 0x6f, 0x73, 0x22, 0x26, 0x0a, 0x14, 0x47, 0x65, 0x74, 0x43, 0x72, 0x79, 0x70, 0x74,
+	0x6f, 0x42, 0x79, 0x49, 0x64, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x0e, 0x0a, 0x02,
+	0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x02, 0x69, 0x64, 0x22, 0x41, 0x0a, 0x15,
+	0x47, 0x65, 0x74, 0x43, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x42, 0x79, 0x49, 0x64, 0x52, 0x65, 0x73,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x28, 0x0a, 0x06, 0x63, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x18,
+	0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x10, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66,
+	0x2e, 0x43, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x52, 0x06, 0x63, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x22,
+	0x42, 0x0a, 0x16, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x4e, 0x65, 0x77, 0x43, 0x72, 0x79, 0x70,
+	0x74, 0x6f, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d,
+	0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x12, 0x14, 0x0a,
+	0x05, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x74, 0x6f,
+	0x6b, 0x65, 0x6e, 0x22, 0x43, 0x0a, 0x17, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x4e, 0x65, 0x77,
+	0x43, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x28,
+	0x0a, 0x06, 0x63, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x10,
+	0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x43, 0x72, 0x79, 0x70, 0x74, 0x6f,
+	0x52, 0x06, 0x63, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x22, 0x3f, 0x0a, 0x13, 0x55, 0x70, 0x64, 0x61,
+	0x74, 0x65, 0x43, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12,
 	0x28, 0x0a, 0x06, 0x63, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32,
 	0x10, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x43, 0x72, 0x79, 0x70, 0x74,
-	0x6f, 0x52, 0x06, 0x63, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x22, 0x14, 0x0a, 0x12, 0x4c, 0x69, 0x73,
-	0x74, 0x43, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x22,
-	0x41, 0x0a, 0x13, 0x4c, 0x69, 0x73, 0x74, 0x43, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x73, 0x52, 0x65,
-	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x2a, 0x0a, 0x07, 0x63, 0x72, 0x79, 0x70, 0x74, 0x6f,
-	0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x10, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62,
-	0x75, 0x66, 0x2e, 0x43, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x52, 0x07, 0x63, 0x72, 0x79, 0x70, 0x74,
-	0x6f, 0x73, 0x32, 0xaa, 0x01, 0x0a, 0x0d, 0x43, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x53, 0x65, 0x72,
-	0x76, 0x69, 0x63, 0x65, 0x12, 0x4c, 0x0a, 0x0f, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x4e, 0x65,
-	0x77, 0x43, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x12, 0x1a, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62,
-	0x75, 0x66, 0x2e, 0x4e, 0x65, 0x77, 0x43, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x52, 0x65, 0x71, 0x75,
-	0x65, 0x73, 0x74, 0x1a, 0x1b, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x4e,
-	0x65, 0x77, 0x43, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
-	0x22, 0x00, 0x12, 0x4b, 0x0a, 0x0a, 0x47, 0x65, 0x74, 0x43, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x73,
-	0x12, 0x1c, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x4c, 0x69, 0x73, 0x74,
-	0x43, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1d,
+	0x6f, 0x52, 0x06, 0x63, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x22, 0x40, 0x0a, 0x14, 0x55, 0x70, 0x64,
+	0x61, 0x74, 0x65, 0x43, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x65, 0x12, 0x28, 0x0a, 0x06, 0x63, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x18, 0x01, 0x20, 0x01, 0x28,
+	0x0b, 0x32, 0x10, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x43, 0x72, 0x79,
+	0x70, 0x74, 0x6f, 0x52, 0x06, 0x63, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x22, 0x25, 0x0a, 0x13, 0x44,
+	0x65, 0x6c, 0x65, 0x74, 0x65, 0x43, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x52, 0x65, 0x71, 0x75, 0x65,
+	0x73, 0x74, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x02,
+	0x69, 0x64, 0x22, 0x25, 0x0a, 0x13, 0x55, 0x70, 0x76, 0x6f, 0x74, 0x65, 0x43, 0x72, 0x79, 0x70,
+	0x74, 0x6f, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18,
+	0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x02, 0x69, 0x64, 0x22, 0x27, 0x0a, 0x15, 0x44, 0x6f, 0x77,
+	0x6e, 0x76, 0x6f, 0x74, 0x65, 0x43, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x52, 0x65, 0x71, 0x75, 0x65,
+	0x73, 0x74, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x02,
+	0x69, 0x64, 0x22, 0x26, 0x0a, 0x14, 0x4f, 0x62, 0x73, 0x65, 0x72, 0x76, 0x65, 0x43, 0x72, 0x79,
+	0x70, 0x74, 0x6f, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x02, 0x69, 0x64, 0x22, 0x41, 0x0a, 0x15, 0x4f, 0x62,
+	0x73, 0x65, 0x72, 0x76, 0x65, 0x43, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x52, 0x65, 0x73, 0x70, 0x6f,
+	0x6e, 0x73, 0x65, 0x12, 0x28, 0x0a, 0x06, 0x63, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x0b, 0x32, 0x10, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x43,
+	0x72, 0x79, 0x70, 0x74, 0x6f, 0x52, 0x06, 0x63, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x32, 0x94, 0x05,
+	0x0a, 0x0d, 0x43, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12,
+	0x4c, 0x0a, 0x0b, 0x4c, 0x69, 0x73, 0x74, 0x43, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x73, 0x12, 0x1c,
 	0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x43, 0x72,
-	0x79, 0x70, 0x74, 0x6f, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x42,
-	0x3a, 0x5a, 0x38, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x6b, 0x61,
-	0x69, 0x6e, 0x62, 0x72, 0x33, 0x2f, 0x6b, 0x6c, 0x65, 0x76, 0x65, 0x72, 0x2e, 0x69, 0x6f, 0x5f,
-	0x63, 0x68, 0x61, 0x6c, 0x6c, 0x65, 0x6e, 0x67, 0x65, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62,
-	0x75, 0x66, 0x3b, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x62, 0x06, 0x70, 0x72, 0x6f,
-	0x74, 0x6f, 0x33,
+	0x79, 0x70, 0x74, 0x6f, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1d, 0x2e, 0x70,
+	0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x43, 0x72, 0x79, 0x70,
+	0x74, 0x6f, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x52, 0x0a,
+	0x0d, 0x47, 0x65, 0x74, 0x43, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x42, 0x79, 0x49, 0x64, 0x12, 0x1e,
+	0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x47, 0x65, 0x74, 0x43, 0x72, 0x79,
+	0x70, 0x74, 0x6f, 0x42, 0x79, 0x49, 0x64, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1f,
+	0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x47, 0x65, 0x74, 0x43, 0x72, 0x79,
+	0x70, 0x74, 0x6f, 0x42, 0x79, 0x49, 0x64, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22,
+	0x00, 0x12, 0x58, 0x0a, 0x0f, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x4e, 0x65, 0x77, 0x43, 0x72,
+	0x79, 0x70, 0x74, 0x6f, 0x12, 0x20, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e,
+	0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x4e, 0x65, 0x77, 0x43, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x52,
+	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x21, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75,
+	0x66, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x4e, 0x65, 0x77, 0x43, 0x72, 0x79, 0x70, 0x74,
+	0x6f, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x4f, 0x0a, 0x0c, 0x55,
+	0x70, 0x64, 0x61, 0x74, 0x65, 0x43, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x12, 0x1d, 0x2e, 0x70, 0x72,
+	0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x43, 0x72, 0x79,
+	0x70, 0x74, 0x6f, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1e, 0x2e, 0x70, 0x72, 0x6f,
+	0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x43, 0x72, 0x79, 0x70,
+	0x74, 0x6f, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x48, 0x0a, 0x0c,
+	0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x43, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x12, 0x1d, 0x2e, 0x70,
+	0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x43, 0x72,
+	0x79, 0x70, 0x74, 0x6f, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x17, 0x2e, 0x70, 0x72,
+	0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x52, 0x65, 0x73, 0x70,
+	0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x48, 0x0a, 0x0c, 0x55, 0x70, 0x76, 0x6f, 0x74, 0x65,
+	0x43, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x12, 0x1d, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75,
+	0x66, 0x2e, 0x55, 0x70, 0x76, 0x6f, 0x74, 0x65, 0x43, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x52, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x17, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66,
+	0x2e, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00,
+	0x12, 0x4c, 0x0a, 0x0e, 0x44, 0x6f, 0x77, 0x6e, 0x76, 0x6f, 0x74, 0x65, 0x43, 0x72, 0x79, 0x70,
+	0x74, 0x6f, 0x12, 0x1f, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x44, 0x6f,
+	0x77, 0x6e, 0x76, 0x6f, 0x74, 0x65, 0x43, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x52, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x1a, 0x17, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x45,
+	0x6d, 0x70, 0x74, 0x79, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x54,
+	0x0a, 0x0d, 0x4f, 0x62, 0x73, 0x65, 0x72, 0x76, 0x65, 0x43, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x12,
+	0x1e, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x4f, 0x62, 0x73, 0x65, 0x72,
+	0x76, 0x65, 0x43, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a,
+	0x1f, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x4f, 0x62, 0x73, 0x65, 0x72,
+	0x76, 0x65, 0x43, 0x72, 0x79, 0x70, 0x74, 0x6f, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
+	0x22, 0x00, 0x30, 0x01, 0x42, 0x3a, 0x5a, 0x38, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63,
+	0x6f, 0x6d, 0x2f, 0x6b, 0x61, 0x69, 0x6e, 0x62, 0x72, 0x33, 0x2f, 0x6b, 0x6c, 0x65, 0x76, 0x65,
+	0x72, 0x2e, 0x69, 0x6f, 0x5f, 0x63, 0x68, 0x61, 0x6c, 0x6c, 0x65, 0x6e, 0x67, 0x65, 0x2f, 0x70,
+	0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x3b, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66,
+	0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -332,26 +904,53 @@ func file_protobuf_service_proto_rawDescGZIP() []byte {
 	return file_protobuf_service_proto_rawDescData
 }
 
-var file_protobuf_service_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
+var file_protobuf_service_proto_msgTypes = make([]protoimpl.MessageInfo, 16)
 var file_protobuf_service_proto_goTypes = []interface{}{
-	(*Crypto)(nil),              // 0: protobuf.Crypto
-	(*NewCryptoRequest)(nil),    // 1: protobuf.NewCryptoRequest
-	(*NewCryptoResponse)(nil),   // 2: protobuf.NewCryptoResponse
-	(*ListCryptosRequest)(nil),  // 3: protobuf.ListCryptosRequest
-	(*ListCryptosResponse)(nil), // 4: protobuf.ListCryptosResponse
+	(*Crypto)(nil),                  // 0: protobuf.Crypto
+	(*EmptyRequest)(nil),            // 1: protobuf.EmptyRequest
+	(*EmptyResponse)(nil),           // 2: protobuf.EmptyResponse
+	(*ListCryptosRequest)(nil),      // 3: protobuf.ListCryptosRequest
+	(*ListCryptosResponse)(nil),     // 4: protobuf.ListCryptosResponse
+	(*GetCryptoByIdRequest)(nil),    // 5: protobuf.GetCryptoByIdRequest
+	(*GetCryptoByIdResponse)(nil),   // 6: protobuf.GetCryptoByIdResponse
+	(*CreateNewCryptoRequest)(nil),  // 7: protobuf.CreateNewCryptoRequest
+	(*CreateNewCryptoResponse)(nil), // 8: protobuf.CreateNewCryptoResponse
+	(*UpdateCryptoRequest)(nil),     // 9: protobuf.UpdateCryptoRequest
+	(*UpdateCryptoResponse)(nil),    // 10: protobuf.UpdateCryptoResponse
+	(*DeleteCryptoRequest)(nil),     // 11: protobuf.DeleteCryptoRequest
+	(*UpvoteCryptoRequest)(nil),     // 12: protobuf.UpvoteCryptoRequest
+	(*DownvoteCryptoRequest)(nil),   // 13: protobuf.DownvoteCryptoRequest
+	(*ObserveCryptoRequest)(nil),    // 14: protobuf.ObserveCryptoRequest
+	(*ObserveCryptoResponse)(nil),   // 15: protobuf.ObserveCryptoResponse
 }
 var file_protobuf_service_proto_depIdxs = []int32{
-	0, // 0: protobuf.NewCryptoResponse.crypto:type_name -> protobuf.Crypto
-	0, // 1: protobuf.ListCryptosResponse.cryptos:type_name -> protobuf.Crypto
-	1, // 2: protobuf.CryptoService.CreateNewCrypto:input_type -> protobuf.NewCryptoRequest
-	3, // 3: protobuf.CryptoService.GetCryptos:input_type -> protobuf.ListCryptosRequest
-	2, // 4: protobuf.CryptoService.CreateNewCrypto:output_type -> protobuf.NewCryptoResponse
-	4, // 5: protobuf.CryptoService.GetCryptos:output_type -> protobuf.ListCryptosResponse
-	4, // [4:6] is the sub-list for method output_type
-	2, // [2:4] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	0,  // 0: protobuf.ListCryptosResponse.cryptos:type_name -> protobuf.Crypto
+	0,  // 1: protobuf.GetCryptoByIdResponse.crypto:type_name -> protobuf.Crypto
+	0,  // 2: protobuf.CreateNewCryptoResponse.crypto:type_name -> protobuf.Crypto
+	0,  // 3: protobuf.UpdateCryptoRequest.crypto:type_name -> protobuf.Crypto
+	0,  // 4: protobuf.UpdateCryptoResponse.crypto:type_name -> protobuf.Crypto
+	0,  // 5: protobuf.ObserveCryptoResponse.crypto:type_name -> protobuf.Crypto
+	3,  // 6: protobuf.CryptoService.ListCryptos:input_type -> protobuf.ListCryptosRequest
+	5,  // 7: protobuf.CryptoService.GetCryptoById:input_type -> protobuf.GetCryptoByIdRequest
+	7,  // 8: protobuf.CryptoService.CreateNewCrypto:input_type -> protobuf.CreateNewCryptoRequest
+	9,  // 9: protobuf.CryptoService.UpdateCrypto:input_type -> protobuf.UpdateCryptoRequest
+	11, // 10: protobuf.CryptoService.DeleteCrypto:input_type -> protobuf.DeleteCryptoRequest
+	12, // 11: protobuf.CryptoService.UpvoteCrypto:input_type -> protobuf.UpvoteCryptoRequest
+	13, // 12: protobuf.CryptoService.DownvoteCrypto:input_type -> protobuf.DownvoteCryptoRequest
+	14, // 13: protobuf.CryptoService.ObserveCrypto:input_type -> protobuf.ObserveCryptoRequest
+	4,  // 14: protobuf.CryptoService.ListCryptos:output_type -> protobuf.ListCryptosResponse
+	6,  // 15: protobuf.CryptoService.GetCryptoById:output_type -> protobuf.GetCryptoByIdResponse
+	8,  // 16: protobuf.CryptoService.CreateNewCrypto:output_type -> protobuf.CreateNewCryptoResponse
+	10, // 17: protobuf.CryptoService.UpdateCrypto:output_type -> protobuf.UpdateCryptoResponse
+	2,  // 18: protobuf.CryptoService.DeleteCrypto:output_type -> protobuf.EmptyResponse
+	2,  // 19: protobuf.CryptoService.UpvoteCrypto:output_type -> protobuf.EmptyResponse
+	2,  // 20: protobuf.CryptoService.DownvoteCrypto:output_type -> protobuf.EmptyResponse
+	15, // 21: protobuf.CryptoService.ObserveCrypto:output_type -> protobuf.ObserveCryptoResponse
+	14, // [14:22] is the sub-list for method output_type
+	6,  // [6:14] is the sub-list for method input_type
+	6,  // [6:6] is the sub-list for extension type_name
+	6,  // [6:6] is the sub-list for extension extendee
+	0,  // [0:6] is the sub-list for field type_name
 }
 
 func init() { file_protobuf_service_proto_init() }
@@ -373,7 +972,7 @@ func file_protobuf_service_proto_init() {
 			}
 		}
 		file_protobuf_service_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*NewCryptoRequest); i {
+			switch v := v.(*EmptyRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -385,7 +984,7 @@ func file_protobuf_service_proto_init() {
 			}
 		}
 		file_protobuf_service_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*NewCryptoResponse); i {
+			switch v := v.(*EmptyResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -420,6 +1019,138 @@ func file_protobuf_service_proto_init() {
 				return nil
 			}
 		}
+		file_protobuf_service_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetCryptoByIdRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_protobuf_service_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetCryptoByIdResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_protobuf_service_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CreateNewCryptoRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_protobuf_service_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CreateNewCryptoResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_protobuf_service_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UpdateCryptoRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_protobuf_service_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UpdateCryptoResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_protobuf_service_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*DeleteCryptoRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_protobuf_service_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UpvoteCryptoRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_protobuf_service_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*DownvoteCryptoRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_protobuf_service_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ObserveCryptoRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_protobuf_service_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ObserveCryptoResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -427,7 +1158,7 @@ func file_protobuf_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_protobuf_service_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   5,
+			NumMessages:   16,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

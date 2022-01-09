@@ -64,6 +64,8 @@ var SelectCryptoByTokenQuery = "SELECT * FROM cryptoCurrencies WHERE token = '%s
 
 var InsertCrypto = "INSERT INTO cryptoCurrencies (name, token, votes) values (?, ?, ?); select last_insert_rowid() id;"
 
+var UpdateCryptoQuery = "UPDATE cryptoCurrencies SET name = ?, token = ?, votes = ? WHERE id = ?"
+
 var DeleteCryptoById = "DELETE FROM cryptoCurrencies WHERE id = ?"
 
 var UpvoteCryptoQuery = "UPDATE cryptoCurrencies SET votes = votes + 1 WHERE id = ?"

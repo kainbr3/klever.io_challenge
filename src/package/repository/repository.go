@@ -350,6 +350,23 @@ func RemoveCryptoById(database *sql.DB, cryptoId int) {
 	stm.Exec(cryptoId)
 }
 
+func UpdateCrypto(database *sql.DB, crypto m.CryptoCurrency) *m.CryptoCurrency {
+	//Prepare the statement
+	stm, err := database.Prepare(t.UpdateCryptoQuery)
+	if err != nil {
+		log.Printf("======> Could not prepare statement: \n%v", err)
+	}
+
+	//Execute query
+	stm.Exec(crypto.Name, crypto.Token, crypto.Votes, crypto.Id)
+
+	//Creates a instance of CryptoCurrency to return the Crypto Added with all Properties filled
+	var crypto_updated = FindCryptoById(database, crypto.Id)
+
+	//Retorna a Crypto
+	return &crypto_updated
+}
+
 func UpvoteCryptoById(database *sql.DB, cryptoId int) {
 	//Prepare the statement
 	stm, err := database.Prepare(t.UpvoteCryptoQuery)

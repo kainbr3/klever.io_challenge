@@ -30,7 +30,18 @@ func main() {
 	defer cancel()
 
 	//Make the Request and store the Response
-	response, err := client.CreateNewCrypto(ctx, &pb.NewCryptoRequest{
+	responseListCryptos, err := client.ListCryptos(ctx, &pb.ListCryptosRequest{
+		Sortparam: "name",
+	})
+	if err != nil {
+		log.Fatalf("======> Could not retrieve cryptos: \n%v", err)
+	}
+	log.Print("\n======> CRYPTO LIST SORTED BY NAME: \n")
+	log.Printf("======> request.GetCryptos(): \n%v", responseListCryptos.Cryptos)
+	fmt.Print("\n\n")
+
+	//Make the Request and store the Response
+	responseNewCrypto, err := client.CreateNewCrypto(ctx, &pb.CreateNewCryptoRequest{
 		Name:  "2021 Fim do Mundo",
 		Token: "21F",
 	})
@@ -39,24 +50,112 @@ func main() {
 	}
 
 	//Log in the console the Response Values of the new CryptoCurrency Created
-	log.Printf(`======> Received from server:
-	======> Crypto from a Database
-	======> ID: %d
-	======> NAME: %s
-	======> TOKEN: %s
-	======> VOTES: %d
-		`,
-		response.GetCrypto().Id,
-		response.Crypto.GetName(),
-		response.Crypto.GetToken(),
-		response.Crypto.GetVotes(),
+	log.Printf(`
+======> Received from server/database:
+======> Crypto Created
+======> ID: %d
+======> NAME: %s
+======> TOKEN: %s
+======> VOTES: %d
+	`,
+		responseNewCrypto.GetCrypto().Id,
+		responseNewCrypto.Crypto.GetName(),
+		responseNewCrypto.Crypto.GetToken(),
+		responseNewCrypto.Crypto.GetVotes(),
 	)
 
-	params := &pb.ListCryptosRequest{}
-	response2, err := client.GetCryptos(ctx, params)
+	//Make the Request and store the Response
+	responseNewCrypto.GetCrypto().Name = responseNewCrypto.GetCrypto().GetName() + " UPDATED!"
+	responseUpdateCrypto, err := client.UpdateCrypto(ctx, &pb.UpdateCryptoRequest{
+		Crypto: responseNewCrypto.GetCrypto(),
+	})
 	if err != nil {
-		log.Fatalf("======> Could not retrieve cryptos: \n%v", err)
+		log.Fatalf("======> Could not update crypto: %v", err)
 	}
-	log.Print("\n======> CRYPTO LIST: \n")
-	fmt.Printf("======> request.GetCryptos(): %v\n", response2.Cryptos)
+
+	//Log in the console the Response Values of the CryptoCurrency Updated
+	log.Printf(`
+======> Received from server/database:
+======> Crypto Updated
+======> ID: %d
+======> NAME: %s
+======> TOKEN: %s
+======> VOTES: %d
+	`,
+		responseUpdateCrypto.GetCrypto().Id,
+		responseUpdateCrypto.Crypto.GetName(),
+		responseUpdateCrypto.Crypto.GetToken(),
+		responseUpdateCrypto.Crypto.GetVotes(),
+	)
+
+	//Log in the console the Response Values of the CryptoCurrency Before Updated Votes
+	log.Printf(`
+======> Votes Before Update:
+======> NAME: %s
+======> VOTES: %d
+	`,
+		responseUpdateCrypto.Crypto.GetName(),
+		responseUpdateCrypto.Crypto.GetVotes(),
+	)
+	//Make the Request and store the Response
+	_, err = client.UpvoteCrypto(ctx, &pb.UpvoteCryptoRequest{
+		Id: responseUpdateCrypto.GetCrypto().GetId(),
+	})
+	if err != nil {
+		log.Fatalf("======> Could not add vote to crypto: %v", err)
+	}
+
+	//Log in the console the Response Values of the CryptoCurrency Votes Updated
+	responseGetById, err := client.GetCryptoById(ctx, &pb.GetCryptoByIdRequest{
+		Id: responseUpdateCrypto.Crypto.GetId(),
+	})
+	if err != nil {
+		log.Fatalf("======> Could not retrieve crypto: %v", err)
+	}
+
+	log.Printf(`
+======> Received from server/database:
+======> Crypto Upvote Updated
+======> NAME: %s
+======> VOTES: %d
+	`,
+		responseGetById.Crypto.GetName(),
+		responseGetById.Crypto.GetVotes(),
+	)
+
+	//Make the Request and store the Response
+	_, err = client.DownvoteCrypto(ctx, &pb.DownvoteCryptoRequest{
+		Id: responseUpdateCrypto.GetCrypto().GetId(),
+	})
+	if err != nil {
+		log.Fatalf("======> Could not add vote to crypto: %v", err)
+	}
+
+	//Log in the console the Response Values of the CryptoCurrency Votes Updated
+	responseGetById, err = client.GetCryptoById(ctx, &pb.GetCryptoByIdRequest{
+		Id: responseUpdateCrypto.Crypto.GetId(),
+	})
+	if err != nil {
+		log.Fatalf("======> Could not retrieve crypto: %v", err)
+	}
+
+	log.Printf(`
+======> Received from server/database:
+======> Crypto Downvote Updated
+======> NAME: %s
+======> VOTES: %d
+`,
+		responseGetById.Crypto.GetName(),
+		responseGetById.Crypto.GetVotes(),
+	)
+	fmt.Print("\n\n")
+
+	_, err = client.DeleteCrypto(ctx, &pb.DeleteCryptoRequest{
+		Id: responseGetById.Crypto.GetId(),
+	})
+	if err != nil {
+		log.Fatalf("======> Could not delete crypto: %v", err)
+	}
+	log.Print("Crypto Deleted Id: ", responseGetById.Crypto.GetId())
+	fmt.Print("\n\n")
 }
