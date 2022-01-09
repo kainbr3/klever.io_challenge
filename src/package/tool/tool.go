@@ -1,5 +1,14 @@
 package tool
 
+//Server Default Port
+var ServerPort = ":50051"
+
+//Server Newwork Type
+var ServerNetworkType = "tcp"
+
+//Client Default Adress
+var ClientAdress = "localhost:50051"
+
 //SQLite Provider
 var Driver = "sqlite3"
 
@@ -53,7 +62,7 @@ var SelectCryptoByNameQuery = "SELECT * FROM cryptoCurrencies WHERE name = '%s'"
 
 var SelectCryptoByTokenQuery = "SELECT * FROM cryptoCurrencies WHERE token = '%s'"
 
-var InsertCrypto = "INSERT INTO cryptoCurrencies (name, token, votes) values (?, ?, ?)"
+var InsertCrypto = "INSERT INTO cryptoCurrencies (name, token, votes) values (?, ?, ?); select last_insert_rowid() id;"
 
 var DeleteCryptoById = "DELETE FROM cryptoCurrencies WHERE id = ?"
 
