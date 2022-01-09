@@ -26,6 +26,7 @@
 | Database      | SqLite        |
 | Type          | gRPC + API    |
 
+
 ## Installation
  *Project requirement:* 
  * [GO (Golang)](https://go.dev/) to run server and client.
@@ -82,6 +83,8 @@ go run command/server/client.go
 *From \SRC|FRONTEND Folder:*
 ```
 dotnet run
+<Command with Hot Reload Support>
+dotnet watch run
 ```
 
 ## Project Structure
@@ -160,3 +163,18 @@ dotnet run
  ┣ 📜LICENSE
  ┗ 📜README.md
  ```
+
+  ## TODO List
+- [x] Create Server and Client Go Applications
+- [x] Organize all the reusable and shared data in Tool Package
+- [x] Create and Configure a Database
+- [x] Create a Repository Package to handle the Database Persistence
+- [x] Create the Protobuf (Contract) file and generate the PB and gRPC Service
+- [x] Create a Frontend Application to consume the gRPC Services
+- [ ] Create New gRPC Services, including a Streaming to show Crypto Votes in Real Time
+- [ ] Add more views in the Frontend Application to iterate with the new gRPC Services
+- [ ] Create the Unit Tests
+- [ ] Test the Marshal/Unmarshal support
+- [ ] Deploy the Solution in a free Coud Service
+- [ ] Configure the Cloud Host Machine Snapshots
+- [ ] Create a Graph to show Host Snapshots
