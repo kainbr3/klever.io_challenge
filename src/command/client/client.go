@@ -13,6 +13,8 @@ import (
 )
 
 func main() {
+	fmt.Print("\n\n")
+	log.Println("======> STARTING THE gRPC CLIENT")
 	//Starts the connection with gRPC Server
 	connection, err := grpc.Dial(t.ClientAdress, grpc.WithTransportCredentials(insecure.NewCredentials()), grpc.WithBlock())
 	if err != nil {
@@ -37,34 +39,24 @@ func main() {
 	}
 
 	//Log in the console the Response Values of the new CryptoCurrency Created
-	// 	log.Printf(`======> Received from server:
-	// ======> Crypto from a Database
-	// ======> ID: %d
-	// ======> NAME: %s
-	// ======> TOKEN: %s
-	// ======> VOTES: %d
-	// 	`,
-	// 		response.GetCrypto().Id,
-	// 		response.Crypto.GetName(),
-	// 		response.Crypto.GetToken(),
-	// 		response.Crypto.GetVotes(),
-	// 	)
+	log.Printf(`======> Received from server:
+	======> Crypto from a Database
+	======> ID: %d
+	======> NAME: %s
+	======> TOKEN: %s
+	======> VOTES: %d
+		`,
+		response.GetCrypto().Id,
+		response.Crypto.GetName(),
+		response.Crypto.GetToken(),
+		response.Crypto.GetVotes(),
+	)
 
-	log.Print("OLHAR AQUI ***********************************")
-	fmt.Print(response)
-	// fmt.Print(response.Crypto)
-	// fmt.Print(response.Crypto.GetName())
-	// fmt.Print(response.Crypto.Name)
-	// fmt.Print(response.GetCrypto())
-	// fmt.Print(response.GetCrypto().Name)
-	// fmt.Print(response.GetCrypto().GetName())
-	//log.Print("**********************************************")
-
-	// params := &pb.ListCryptosRequest{}
-	// response2, err := client.GetCryptos(ctx, params)
-	// if err != nil {
-	// 	log.Fatalf("======> Could not retrieve cryptos: \n%v", err)
-	// }
-	// log.Print("\n======> CRYPTO LIST: \n")
-	// fmt.Printf("======> request.GetCryptos(): %v\n", response2.Cryptos)
+	params := &pb.ListCryptosRequest{}
+	response2, err := client.GetCryptos(ctx, params)
+	if err != nil {
+		log.Fatalf("======> Could not retrieve cryptos: \n%v", err)
+	}
+	log.Print("\n======> CRYPTO LIST: \n")
+	fmt.Printf("======> request.GetCryptos(): %v\n", response2.Cryptos)
 }

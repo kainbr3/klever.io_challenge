@@ -34,17 +34,19 @@ func (server *CryptoServiceServer) Run() error {
 	pb.RegisterCryptoServiceServer(s, server)
 
 	//Show some message to displat that server is online
-	log.Printf("======> The GO gRPC SERVER is UP!")
+	log.Println("======> The GO gRPC SERVER is UP!")
 	log.Printf("======> Server listening at %v", listener.Addr())
+	fmt.Print("\n\n")
 
 	//Enables accepting incoming connections in the Listen port
 	return s.Serve(listener)
 }
 
 func (server *CryptoServiceServer) CreateNewCrypto(ctx context.Context, request *pb.NewCryptoRequest) (*pb.NewCryptoResponse, error) {
-	log.Printf("======> Received from client: New Crypto")
+	log.Println("======> Received from client: New Crypto")
 	log.Printf("======> NAME: %v", request.GetName())
 	log.Printf("======> TOKEN: %v", request.GetToken())
+	fmt.Print("\n\n")
 
 	crypto_created := repo.AddCrypto(server.conn.DB, m.CryptoCurrency{
 		Name:  request.GetName(),
@@ -52,11 +54,12 @@ func (server *CryptoServiceServer) CreateNewCrypto(ctx context.Context, request 
 		Votes: 0,
 	})
 
-	fmt.Print("======> Persisted in the Database")
-	log.Printf("======> ID: %v", &crypto_created.Id)
-	log.Printf("======> NAME: %v", &crypto_created.Name)
-	log.Printf("======> TOKEN: %v", &crypto_created.Token)
-	log.Printf("======> VOTES: %v", &crypto_created.Votes)
+	log.Println("======> Persisted in the Database")
+	log.Printf("======> ID: %v", crypto_created.Id)
+	log.Printf("======> NAME: %v", crypto_created.Name)
+	log.Printf("======> TOKEN: %v", crypto_created.Token)
+	log.Printf("======> VOTES: %v", crypto_created.Votes)
+	fmt.Print("\n\n")
 
 	return &pb.NewCryptoResponse{
 		Crypto: &pb.Crypto{
@@ -88,9 +91,13 @@ func (server *CryptoServiceServer) GetCryptos(ctx context.Context, request *pb.L
 }
 
 func main() {
+	fmt.Print("\n\n")
+	log.Println("======> STARTING THE gRPC SERVER")
 	var cryptoServer *CryptoServiceServer = NewCryptoServiceServer()
 	cryptoServer.conn = repo.DatabaseInit()
-	fmt.Println("======> Databased Ready: ", cryptoServer.conn.DB.Stats())
+	log.Println("======> Databased Ready: \n", cryptoServer.conn.DB.Stats())
+	fmt.Print("\n\n")
+
 	//repo.BuildDatabase(cryptoServer.conn.DB, true)
 	defer cryptoServer.conn.DB.Close()
 

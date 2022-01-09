@@ -16,8 +16,9 @@ type Klever struct {
 
 func DatabaseInit() *Klever {
 	//Display some info
-	fmt.Println("======> Driver Type: ", t.Driver)
-	fmt.Println("======> Database Name: ", t.Database)
+	log.Println("======> Driver Type: ", t.Driver)
+	log.Println("======> Database Name: ", t.Database)
+	fmt.Print("\n\n")
 
 	//Open database connection
 	database, err := sql.Open(t.Driver, t.Database)
@@ -27,7 +28,8 @@ func DatabaseInit() *Klever {
 		log.Fatalf("======> Could not connect to the database \n%v", err)
 	}
 	//show some info
-	fmt.Println("======> Database Found. Ready to connect!")
+	log.Println("======> Database Found. Ready to connect!")
+	fmt.Print("\n\n")
 
 	return &Klever{
 		DB: database,
@@ -72,7 +74,7 @@ func FindAllCryptos(database *sql.DB) []m.CryptoCurrency {
 	rows, err := database.Query(t.SelectAllCryptosQuery)
 
 	if err != nil {
-		fmt.Println("======> Error while executing query: \n", t.SelectAllCryptosQuery, "\n======> ERRROR: ", err)
+		log.Println("======> Error while executing query: \n", t.SelectAllCryptosQuery, "\n======> ERRROR: ", err)
 	}
 
 	//Variables to be used durring the rresult iteration
@@ -103,7 +105,7 @@ func FindAllCryptosSortedByName(database *sql.DB) []m.CryptoCurrency {
 	rows, err := database.Query(t.SelectAllCryptosSortedByNameQuery)
 
 	if err != nil {
-		fmt.Println("======> Error while executing query: \n", t.SelectAllCryptosSortedByNameQuery, "\n======> ERRROR: ", err)
+		log.Println("======> Error while executing query: \n", t.SelectAllCryptosSortedByNameQuery, "\n======> ERRROR: ", err)
 	}
 
 	//Variables to be used durring the rresult iteration
@@ -134,7 +136,7 @@ func FindAllCryptosSortedByToken(database *sql.DB) []m.CryptoCurrency {
 	rows, err := database.Query(t.SelectAllCryptosSortedByTokenQuery)
 
 	if err != nil {
-		fmt.Println("======> Error while executing query: \n", t.SelectAllCryptosSortedByTokenQuery, "\n======> ERRROR: ", err)
+		log.Println("======> Error while executing query: \n", t.SelectAllCryptosSortedByTokenQuery, "\n======> ERRROR: ", err)
 	}
 
 	//Variables to be used durring the rresult iteration
@@ -165,7 +167,7 @@ func FindAllCryptosSortedByLeastVotes(database *sql.DB) []m.CryptoCurrency {
 	rows, err := database.Query(t.SelectAllCryptosSortedByLeastVotesQuery)
 
 	if err != nil {
-		fmt.Println("======> Error while executing query: \n", t.SelectAllCryptosSortedByLeastVotesQuery, "\n======> ERRROR: ", err)
+		log.Println("======> Error while executing query: \n", t.SelectAllCryptosSortedByLeastVotesQuery, "\n======> ERRROR: ", err)
 	}
 
 	//Variables to be used durring the rresult iteration
@@ -196,7 +198,7 @@ func FindAllCryptosSortedByTopVotes(database *sql.DB) []m.CryptoCurrency {
 	rows, err := database.Query(t.SelectAllCryptosSortedByTopVotesQuery)
 
 	if err != nil {
-		fmt.Println("======> Error while executing query: \n", t.SelectAllCryptosSortedByTopVotesQuery, "\n======> ERRROR: ", err)
+		log.Println("======> Error while executing query: \n", t.SelectAllCryptosSortedByTopVotesQuery, "\n======> ERRROR: ", err)
 	}
 
 	//Variables to be used durring the rresult iteration
@@ -228,7 +230,7 @@ func FindCryptoById(database *sql.DB, cryptoId int) m.CryptoCurrency {
 	rows, err := database.Query(t.SelectCryptoByIdQuery, cryptoId)
 
 	if err != nil {
-		fmt.Println("======> Error while executing query: \n", t.SelectCryptoByIdQuery, cryptoId, "\n======> ERRROR: ", err)
+		log.Println("======> Error while executing query: \n", t.SelectCryptoByIdQuery, cryptoId, "\n======> ERRROR: ", err)
 	}
 
 	//Variables to be used durring the rresult iteration
@@ -260,7 +262,7 @@ func FindCryptoByName(database *sql.DB, cryptoName string) m.CryptoCurrency {
 	rows, err := database.Query(fmt.Sprintf(t.SelectCryptoByNameQuery, cryptoName))
 
 	if err != nil {
-		fmt.Println("======> Error while executing query: \n", t.SelectCryptoByNameQuery, cryptoName, "\n======> ERRROR: ", err)
+		log.Println("======> Error while executing query: \n", t.SelectCryptoByNameQuery, cryptoName, "\n======> ERRROR: ", err)
 	}
 
 	//Variables to be used durring the rresult iteration
@@ -292,7 +294,7 @@ func FindCryptoByToken(database *sql.DB, cryptoToken string) m.CryptoCurrency {
 	rows, err := database.Query(fmt.Sprintf(t.SelectCryptoByTokenQuery, cryptoToken))
 
 	if err != nil {
-		fmt.Println("======> Error while executing query: \n", t.SelectCryptoByTokenQuery, cryptoToken, "\n======> ERRROR: ", err)
+		log.Println("======> Error while executing query: \n", t.SelectCryptoByTokenQuery, cryptoToken, "\n======> ERRROR: ", err)
 	}
 
 	//Variables to be used durring the rresult iteration
@@ -319,7 +321,7 @@ func AddCrypto(database *sql.DB, crypto m.CryptoCurrency) *m.CryptoCurrency {
 	//Prepare the statement
 	stm, err := database.Prepare(t.InsertCrypto)
 	if err != nil {
-		fmt.Printf("======> Could not prepare statement: \n%v", err)
+		log.Printf("======> Could not prepare statement: \n%v", err)
 	}
 
 	//Execute query
@@ -341,7 +343,7 @@ func RemoveCryptoById(database *sql.DB, cryptoId int) {
 	stm, err := database.Prepare(t.DeleteCryptoById)
 
 	if err != nil {
-		fmt.Printf("======> Could not prepare statement: \n%v", err)
+		log.Printf("======> Could not prepare statement: \n%v", err)
 	}
 
 	//Execute query
@@ -353,7 +355,7 @@ func UpvoteCryptoById(database *sql.DB, cryptoId int) {
 	stm, err := database.Prepare(t.UpvoteCryptoQuery)
 
 	if err != nil {
-		fmt.Printf("======> Could not prepare statement: \n%v", err)
+		log.Printf("======> Could not prepare statement: \n%v", err)
 	}
 
 	//Execute query
@@ -365,7 +367,7 @@ func DownvoteCryptoById(database *sql.DB, cryptoId int) {
 	stm, err := database.Prepare(t.DownvoteCryptoQuery)
 
 	if err != nil {
-		fmt.Printf("======> Could not prepare statement: \n%v", err)
+		log.Printf("======> Could not prepare statement: \n%v", err)
 	}
 
 	//Execute query
@@ -377,7 +379,7 @@ func ReseedTable(database *sql.DB, tableName string) {
 	stm, err := database.Prepare(fmt.Sprintf(t.ReseedTable, tableName, tableName))
 
 	if err != nil {
-		fmt.Printf("======> Could not prepare statement: \n%v", err)
+		log.Printf("======> Could not prepare statement: \n%v", err)
 	}
 
 	//Execute query
@@ -389,7 +391,7 @@ func CleanTable(database *sql.DB, tableName string) {
 	stm, err := database.Prepare(fmt.Sprintf(t.DeleteAllFromTable, tableName))
 
 	if err != nil {
-		fmt.Printf("======> Could not prepare statement: \n%v", err)
+		log.Printf("======> Could not prepare statement: \n%v", err)
 	}
 
 	//Execute query
@@ -401,7 +403,7 @@ func DropTable(database *sql.DB, tableName string) {
 	stm, err := database.Prepare(fmt.Sprintf(t.DropTable, tableName))
 
 	if err != nil {
-		fmt.Printf("======> Could not prepare statement: \n%v", err)
+		log.Printf("======> Could not prepare statement: \n%v", err)
 	}
 
 	//Execute query
@@ -413,7 +415,7 @@ func ExecuteCustomStatement(database *sql.DB, statement string) {
 	stm, err := database.Prepare(statement)
 
 	if err != nil {
-		fmt.Printf("======> Could not prepare statement: \n%v", err)
+		log.Printf("======> Could not prepare statement: \n%v", err)
 	}
 
 	//Execute query
