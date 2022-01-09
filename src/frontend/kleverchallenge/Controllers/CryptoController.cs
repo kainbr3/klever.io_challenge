@@ -6,15 +6,15 @@ namespace kleverchallenge.Controllers;
 
 public class CryptoController : Controller
 {
-
     private static GrpcChannel channel = GrpcChannel.ForAddress("http://localhost:50051");
     private CryptoServiceClient client = new CryptoServiceClient(channel);
-
+    
     [HttpGet]
     public IActionResult List()
     {   
         List<Crypto> cryptos = FindAllCryptos().Result.Cryptos.ToList();
         ViewBag.CryptoList = cryptos;
+
         return View();
     }
 

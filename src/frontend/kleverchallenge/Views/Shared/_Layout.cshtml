@@ -7,9 +7,11 @@
     <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
     <link href="css/site.css" rel="stylesheet">
     <title>Klever Challenge</title>
+    @RenderSection("scripts", required: false)
 </head>
 
 <body>
+    @{ var view = ViewContext?.RouteData?.Values?["Action"]?.ToString(); }
     <div class="page" b-3dsd3z3yec="">
         <div class="sidebar" b-3dsd3z3yec="">
             <div class="top-row ps-3 navbar navbar-dark" b-7cxxmz0cwl="">
@@ -23,27 +25,27 @@
             <div class="collapse" b-7cxxmz0cwl="">
                 <nav class="flex-column" b-7cxxmz0cwl="">
                     <div class="nav-item px-3" b-7cxxmz0cwl="">
-                        <a href="Home/Index" class="@(ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "nav-link active" : "nav-link")">
+                        <a href="Home/Index" class="@(view == "Index" ? "nav-link active" : "nav-link")">
                             <span class="oi oi-home" aria-hidden="true" b-7cxxmz0cwl=""></span> Home
                         </a>
                     </div>
                     <div class="nav-item px-3" b-7cxxmz0cwl="">
-                        <a href="Crypto/List" class="@(ViewContext.RouteData.Values["Action"].ToString() == "List" ? "nav-link active" : "nav-link")">
+                        <a href="Crypto/List" class="@(view == "List" ? "nav-link active" : "nav-link")">
                             <span class="oi oi-list-rich" aria-hidden="true" b-7cxxmz0cwl=""></span> List Cryptos
                         </a>
                     </div>
                     <div class="nav-item px-3" b-7cxxmz0cwl="">
-                        <a href="Crypto/Add" class="@(ViewContext.RouteData.Values["Action"].ToString() == "Add" ? "nav-link active" : "nav-link")">
+                        <a href="Crypto/Add" class="@(view == "Add" ? "nav-link active" : "nav-link")">
                             <span class="oi oi-plus" aria-hidden="true" b-7cxxmz0cwl=""></span> Add Crypto
                         </a>
                     </div>
                     <div class="nav-item px-3" b-7cxxmz0cwl="">
-                        <a href="Crypto/Update" class="@(ViewContext.RouteData.Values["Action"].ToString() == "Update" ? "nav-link active" : "nav-link")">
+                        <a href="Crypto/Update" class="@(view == "Update" ? "nav-link active" : "nav-link")">
                             <span class="oi oi-loop-circular" aria-hidden="true" b-7cxxmz0cwl=""></span> Update Crypto
                         </a>
                     </div>
                     <div class="nav-item px-3" b-7cxxmz0cwl="">
-                        <a href="Crypto/Delete" class="@(ViewContext.RouteData.Values["Action"].ToString() == "Delete" ? "nav-link active" : "nav-link")">
+                        <a href="Crypto/Delete" class="@(view == "Delete" ? "nav-link active" : "nav-link")">
                             <span class="oi oi-circle-x" aria-hidden="true" b-7cxxmz0cwl=""></span> Delete Crypto
                         </a>
                     </div>                                        
