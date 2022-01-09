@@ -5,8 +5,17 @@ package protobuf;
 option csharp_namespace = "KleverGrpcClient";
 
 service CryptoService {
-    rpc CreateNewCrypto(NewCryptoRequest) returns (NewCryptoResponse) {}
-    rpc GetCryptos(ListCryptosRequest) returns (ListCryptosResponse) {}
+    rpc ListCryptos(ListCryptosRequest) returns (ListCryptosResponse){}
+    rpc GetCryptoById(GetCryptoByIdRequest) returns (GetCryptoByIdResponse){}
+
+    rpc CreateNewCrypto(CreateNewCryptoRequest) returns (CreateNewCryptoResponse){}
+    rpc UpdateCrypto(UpdateCryptoRequest) returns (UpdateCryptoResponse){}
+    rpc DeleteCrypto(DeleteCryptoRequest) returns (EmptyResponse){}
+
+    rpc UpvoteCrypto(UpvoteCryptoRequest) returns (EmptyResponse){}
+    rpc DownvoteCrypto(DownvoteCryptoRequest) returns (EmptyResponse){}
+
+    rpc ObserveCrypto(ObserveCryptoRequest) returns (stream ObserveCryptoResponse){}
 }
 
 message Crypto{
@@ -16,17 +25,59 @@ message Crypto{
 	int32 votes = 4;
 }
 
-message NewCryptoRequest{
+message EmptyRequest{}
+
+message EmptyResponse{}
+
+message ListCryptosRequest{
+    string sortparam = 1;
+}
+
+message ListCryptosResponse{
+    repeated Crypto cryptos = 1;
+}
+
+message GetCryptoByIdRequest{
+    int32 id = 1;
+}
+
+message GetCryptoByIdResponse{
+    Crypto crypto = 1;
+}
+
+message CreateNewCryptoRequest{
     string name = 1;
 	string token = 2;
 }
 
-message NewCryptoResponse{
+message CreateNewCryptoResponse{
     Crypto crypto = 1;
 }
 
-message ListCryptosRequest{}
+message UpdateCryptoRequest{
+    Crypto crypto = 1;
+}
 
-message ListCryptosResponse{
-    repeated Crypto cryptos = 1;
+message UpdateCryptoResponse{
+    Crypto crypto = 1;
+}
+
+message DeleteCryptoRequest{
+    int32 id = 1;
+}
+
+message UpvoteCryptoRequest{
+    int32 id =1;
+}
+
+message DownvoteCryptoRequest{
+    int32 id =1;
+}
+
+message ObserveCryptoRequest{
+    int32 id = 1;
+}
+
+message ObserveCryptoResponse{
+    Crypto crypto = 1;
 }

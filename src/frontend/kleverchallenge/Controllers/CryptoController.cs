@@ -36,15 +36,15 @@ public class CryptoController : Controller
         return View();
     }
 
-    public async Task<NewCryptoResponse> AddNewCrypto()
+    public async Task<CreateNewCryptoResponse> AddNewCrypto()
     {
-        var request = new NewCryptoRequest{ Name = "Lascado", Token = "LASC" };
+        var request = new CreateNewCryptoRequest{ Name = "Lascado", Token = "LASC" };
         return await client.CreateNewCryptoAsync(request);
     }
 
     public async Task<ListCryptosResponse> FindAllCryptos()
     {
         var request = new ListCryptosRequest();
-        return await client.GetCryptosAsync(request);
+        return await client.ListCryptosAsync(request);
     }
 }
