@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package protobuf;
+
+option go_package = "github.com/kainbr3/klever.io_challenge/protobuf;protobuf";
+
+service CryptoService {
+    rpc CreateNewCrypto(NewCryptoRequest) returns (NewCryptoResponse) {}
+    rpc GetCryptos(ListCryptosRequest) returns (ListCryptosResponse) {}
+}
+
+message Crypto{
+    int32 id = 1;
+    string name = 2;
+	string token = 3;
+	int32 votes = 4;
+}
+
+message NewCryptoRequest{
+    string name = 1;
+	string token = 2;
+}
+
+message NewCryptoResponse{
+    Crypto crypto = 1;
+}
+
+message ListCryptosRequest{}
+
+message ListCryptosResponse{
+    repeated Crypto cryptos = 1;
+}

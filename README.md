@@ -27,15 +27,62 @@
 | Type          | gRPC + API    |
 
 ## Installation
- Project requires [GO (Golang)](https://go.dev/) to run.
+ *Project requirement:* 
+ * [GO (Golang)](https://go.dev/) to run server and client.
+ * [.Net 6 (Dotnet 6)](https://dotnet.microsoft.com/en-us/download/dotnet/6.0) to run the Additional Frontend.
+
+##### Protobuf File NEEDED OPTIONS
+ ```
+ Golang Version must add this
+ option go_package = "github.com/kainbr3/klever.io_challenge/protobuf;protobuf"; 
  
- gRPC Files Generation:
+ C# Version must add this
+ option csharp_namespace = "KleverGrpcClient";
+ ```
+
+##### gRPC Files Generation: (Golang)
  ```
 protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative protobuf/service.proto
 ```
 
 *service.pb.go => Responsible to Serialize and Deserialize the messages defined in service definitions
 service.grpc.pb.go => Contains the auto generated Client and Server Code that we need to implement in our own Client and Server programs*
+
+##### gRPC Files Generation: (C# - CSharp)
+ ```
+protoc --proto_path=. --csharp_out=library=service_pb,binary:protobuf --grpc-web_out=import_style=commonjs,mode=grpcwebtext:. protobuf/service.proto
+```
+
+##### Dedepndencies and Package Go (Golang)
+*From \SRC Folder:*
+ ```
+go mod tidy
+```
+
+##### Dedepndencies and Package C# (CSharp)
+*From \SRC\FRONTEND Folder:*
+ ```
+dotnet restore
+dotnet build
+```
+
+## Starting the Server
+*From \SRC Folder:*
+```
+go run command/server/server.go
+```
+
+## Starting the CLient
+*From \SRC Folder:*
+```
+go run command/server/client.go
+```
+
+## Starting the FRONT END
+*From \SRC|FRONTEND Folder:*
+```
+dotnet run
+```
 
 ## Project Structure
 ```
@@ -46,6 +93,51 @@ service.grpc.pb.go => Contains the auto generated Client and Server Code that we
  ┃ ┃ ┃ ┗ 📜client.go
  ┃ ┃ ┗ 📂server
  ┃ ┃ ┃ ┗ 📜server.go
+ ┃ ┃ ┣ 📂frontend
+ ┃ ┃ ┃ ┗ 📂kleverchallenge
+ ┃ ┃ ┃   ┣ 📂Controllers
+ ┃ ┃ ┃   ┃ ┣ 📜CryptoController.cs
+ ┃ ┃ ┃   ┃ ┗ 📜HomeController.cs
+ ┃ ┃ ┃   ┣ 📂Models
+ ┃ ┃ ┃   ┃ ┗ 📜ErrorViewModel.cs
+ ┃ ┃ ┃   ┣ 📂Properties
+ ┃ ┃ ┃   ┃ ┗ 📜launchSettings.json
+ ┃ ┃ ┃   ┣ 📂protobuf
+ ┃ ┃ ┃   ┃ ┗ 📜service.proto
+ ┃ ┃ ┃   ┣ 📂Views
+ ┃ ┃ ┃   ┃ ┣ 📂Crypto
+ ┃ ┃ ┃   ┃ ┃ ┣ 📜Add.cshtml
+ ┃ ┃ ┃   ┃ ┃ ┣ 📜Delete.cshtml
+ ┃ ┃ ┃   ┃ ┃ ┣ 📜List.cshtml
+ ┃ ┃ ┃   ┃ ┃ ┗ 📜Update.cshtml
+ ┃ ┃ ┃   ┃ ┣ 📂Home
+ ┃ ┃ ┃   ┃ ┃ ┗ 📜Index.cshtml
+ ┃ ┃ ┃   ┃ ┣ 📂Shared
+ ┃ ┃ ┃   ┃ ┃ ┣ 📜Error.cshtml
+ ┃ ┃ ┃   ┃ ┃ ┣ 📜_Layout.cshtml
+ ┃ ┃ ┃   ┃ ┃ ┣ 📜_Layout.cshtml.css
+ ┃ ┃ ┃   ┃ ┃ ┗ 📜_ValidationScriptsPartial.cshtml
+ ┃ ┃ ┃   ┃ ┣ 📜_ViewImports.cshtml
+ ┃ ┃ ┃   ┃ ┗ 📜_ViewStart.cshtml
+ ┃ ┃ ┃   ┣ 📂wwwroot
+ ┃ ┃ ┃   ┃ ┣ 📂css
+ ┃ ┃ ┃   ┃ ┃ ┗ 📜site.css
+ ┃ ┃ ┃   ┃ ┣ 📂img
+ ┃ ┃ ┃   ┃ ┃ ┣ 📜AXS.png
+ ┃ ┃ ┃   ┃ ┃ ┣ 📜BTC.png
+ ┃ ┃ ┃   ┃ ┃ ┣ 📜DVK.png
+ ┃ ┃ ┃   ┃ ┃ ┣ 📜ETH.png
+ ┃ ┃ ┃   ┃ ┃ ┣ 📜KLV.png
+ ┃ ┃ ┃   ┃ ┃ ┣ 📜TRX.png
+ ┃ ┃ ┃   ┃ ┃ ┗ 📜USDT.png
+ ┃ ┃ ┃   ┃ ┣ 📂js
+ ┃ ┃ ┃   ┃ ┃ ┗ 📜site.js
+ ┃ ┃ ┃   ┃ ┣ 📂lib
+ ┃ ┃ ┃   ┃ ┗ 📜favicon.ico
+ ┃ ┃ ┃   ┣ 📜appsettings.Development.json
+ ┃ ┃ ┃   ┣ 📜appsettings.json
+ ┃ ┃ ┃   ┣ 📜kleverchallenge.csproj
+ ┃ ┃ ┃   ┗ 📜Program.cs
  ┃ ┣ 📂infra
  ┃ ┃ ┗ 📂database
  ┃ ┃ ┃ ┗ 📜kleverchallenge.db
@@ -68,4 +160,3 @@ service.grpc.pb.go => Contains the auto generated Client and Server Code that we
  ┣ 📜LICENSE
  ┗ 📜README.md
  ```
- 
