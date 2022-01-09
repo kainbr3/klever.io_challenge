@@ -21,10 +21,13 @@
 
 ## Project Detais
 | Type  | Detail |
-| ------------- |:-------------:|
-| Language      | Go            |
-| Database      | SqLite        |
-| Type          | gRPC + API    |
+| --------------- |:-------------:|
+| Server Language | Go            |
+| Client Language | Go            |
+| Type            | gRPC + API    |
+| Database        | SqLite        |
+| Frontend        | .Net6 Web MVC |
+| Cloud Host      |     -         |
 
 
 ## Installation
