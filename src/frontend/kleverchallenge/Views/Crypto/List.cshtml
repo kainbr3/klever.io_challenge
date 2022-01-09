@@ -1,0 +1,35 @@
+﻿@{
+    ViewData["Title"] = "List Cryptos Page";
+}
+
+<div class="text-center">
+
+    <h1 class="display-4">Cryptos List</h1>
+
+    <p>This page fetch data from a gRPC service.</p>
+
+</div>
+
+<table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th></th>Icon</th>
+                <th>Name</th>
+                <th>Token</th>
+                <th>Votes</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var coin in ViewBag.CryptoList)
+            {
+                <tr>
+                    <td>@(ViewBag.CryptoList.IndexOf(coin)+1)</td>
+                    <th></th>
+                    <td>@coin.Name</td>
+                    <td>@coin.Token</td>
+                    <td>@coin.Votes</td>
+                </tr>
+            }
+        </tbody>
+</table>

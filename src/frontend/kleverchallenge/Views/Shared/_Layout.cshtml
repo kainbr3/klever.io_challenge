@@ -1,0 +1,61 @@
+﻿<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="/">
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
+    <link href="css/site.css" rel="stylesheet">
+    <title>Klever Challenge</title>
+</head>
+
+<body>
+    <div class="page" b-3dsd3z3yec="">
+        <div class="sidebar" b-3dsd3z3yec="">
+            <div class="top-row ps-3 navbar navbar-dark" b-7cxxmz0cwl="">
+                <div class="container-fluid" b-7cxxmz0cwl="">
+                    <a class="navbar-brand" href="" b-7cxxmz0cwl="">Klever Challenge</a>
+                    <button title="Navigation menu" class="navbar-toggler" b-7cxxmz0cwl="">
+                        <span class="navbar-toggler-icon" b-7cxxmz0cwl=""></span>
+                    </button>
+                </div>
+            </div>
+            <div class="collapse" b-7cxxmz0cwl="">
+                <nav class="flex-column" b-7cxxmz0cwl="">
+                    <div class="nav-item px-3" b-7cxxmz0cwl="">
+                        <a href="Home/Index" class="@(ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "nav-link active" : "nav-link")">
+                            <span class="oi oi-home" aria-hidden="true" b-7cxxmz0cwl=""></span> Home
+                        </a>
+                    </div>
+                    <div class="nav-item px-3" b-7cxxmz0cwl="">
+                        <a href="Crypto/List" class="@(ViewContext.RouteData.Values["Action"].ToString() == "List" ? "nav-link active" : "nav-link")">
+                            <span class="oi oi-list-rich" aria-hidden="true" b-7cxxmz0cwl=""></span> List Cryptos
+                        </a>
+                    </div>
+                    <div class="nav-item px-3" b-7cxxmz0cwl="">
+                        <a href="Crypto/Add" class="@(ViewContext.RouteData.Values["Action"].ToString() == "Add" ? "nav-link active" : "nav-link")">
+                            <span class="oi oi-plus" aria-hidden="true" b-7cxxmz0cwl=""></span> Add Crypto
+                        </a>
+                    </div>
+                    <div class="nav-item px-3" b-7cxxmz0cwl="">
+                        <a href="Crypto/Update" class="@(ViewContext.RouteData.Values["Action"].ToString() == "Update" ? "nav-link active" : "nav-link")">
+                            <span class="oi oi-loop-circular" aria-hidden="true" b-7cxxmz0cwl=""></span> Update Crypto
+                        </a>
+                    </div>
+                    <div class="nav-item px-3" b-7cxxmz0cwl="">
+                        <a href="Crypto/Delete" class="@(ViewContext.RouteData.Values["Action"].ToString() == "Delete" ? "nav-link active" : "nav-link")">
+                            <span class="oi oi-circle-x" aria-hidden="true" b-7cxxmz0cwl=""></span> Delete Crypto
+                        </a>
+                    </div>                                        
+                </nav>
+            </div>
+        </div>
+        <main b-3dsd3z3yec="">
+            <div class="top-row px-4" b-3dsd3z3yec=""><a href="https://github.com/kainbr3/klever.io_challenge" target="_blank" b-3dsd3z3yec="">About</a></div>
+            <article class="content px-4" b-3dsd3z3yec="">
+                @RenderBody()
+            </article>
+        </main>
+    </div>
+</body>
+</html>
