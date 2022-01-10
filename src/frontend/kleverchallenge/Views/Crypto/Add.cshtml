@@ -7,59 +7,73 @@
     <p>This page uses a gRPC service.</p>
 </div>
 
-<div class="row">
-    <div class="col-3"></div>
-    <div class="col-6">
-        <div class="mb-3">
-            <label for="Name" class="form-label">Name</label>
-            <input type="text" name="CryptoEntity.Name" class="form-control" id="Name" placeholder="Cryptocurrency Name. (ex. Bitcoin, Ethereum, etc...)">
-        </div>
-    </div>
-</div>
 <form>
-<div class="row">
-    <div class="col-3"></div>
-    <div class="col-6">
-        <div class="mb-3">
-            <label for="Token" class="form-label">Token</label>
-            <input type="text" name="CryptoEntity.Token" class="form-control" id="Token" placeholder="Token Name. (ex. USDT, BTC, KLV, etc...)">
+    <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6">
+            <div class="mb-3">
+                <label for="Name" class="form-label">Name</label>
+                <input type="text" name="CryptoEntity.Name" class="form-control" id="Name"
+                    placeholder="Cryptocurrency Name. (ex. Bitcoin, Ethereum, etc...)" required>
+            </div>
         </div>
     </div>
-</div>
 
-<div class="row">
-    <div class="col-3"></div>
-    <div class="col-9">
-        <div class="mb-3">
-            <button type="button" id="btn-save" class="btn btn-lg btn-primary">Save</button>
+    <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6">
+            <div class="mb-3">
+                <label for="Token" class="form-label">Token</label>
+                <input type="text" name="CryptoEntity.Token" class="form-control" id="Token"
+                    placeholder="Token Name. (ex. USDT, BTC, KLV, etc...)" required>
+            </div>
         </div>
     </div>
-</div>
+
+    <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6">
+            <div class="mb-3">
+                <label for="Image" class="form-label">Choose a Image to represent the coin</label>
+                <input class="form-control" name="CryptoEntity.Image" type="file" id="Image" required>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-3"></div>
+        <div class="col-9">
+            <div class="mb-3">
+                @* <button type="button" id="btn-save" class="btn btn-lg btn-primary">Save</button> *@
+                <button type="submit" id="btn-save" class="btn btn-lg btn-primary">Save</button>
+            </div>
+        </div>
+    </div>
 </form>
 
 @section scripts {
-    <script type="text/javascript">
-        window.onload = function() {
-            const btn = document.getElementById("btn-save");
+<script type="text/javascript">
+    window.onload = function () {
+        const btn = document.getElementById("btn-save");
 
-            btn.addEventListener("click", function(e) {
-                var crypto = {
-                    Name : document.getElementById("Name").value,
-                    Token : document.getElementById("Token").value
-                };
+        btn.addEventListener("click", function (e) {
+            var crypto = {
+                Name: document.getElementById("Name").value,
+                Token: document.getElementById("Token").value
+            };
 
-                const options = {
-                    method: 'POST',
-                    body: JSON.stringify(crypto)
-                };
+            const options = {
+                method: 'POST',
+                body: JSON.stringify(crypto)
+            };
 
-                console.log(crypto);
-                console.log(crypto.Name);
-                console.log(crypto.Token);
-                console.log(JSON.stringify(crypto));
+            console.log(crypto);
+            console.log(crypto.Name);
+            console.log(crypto.Token);
+            console.log(JSON.stringify(crypto));
 
-                fetch('/Crypto/Test?name=' + crypto.Name + '&token=' + crypto.Token, options).then(T => T.json()).then(console.log)
-            }, false);
-        }
-    </script>
+            fetch('/Crypto/Test?name=' + crypto.Name + '&token=' + crypto.Token, options).then(T => T.json()).then(console.log)
+        }, false);
+    }
+</script>
 }

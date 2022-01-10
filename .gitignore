@@ -13,3 +13,39 @@
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
+src/frontend/kleverchallenge/bin/Debug/net6.0/appsettings.Development.json
+src/frontend/kleverchallenge/bin/Debug/net6.0/appsettings.json
+src/frontend/kleverchallenge/bin/Debug/net6.0/kleverchallenge.deps.json
+src/frontend/kleverchallenge/bin/Debug/net6.0/kleverchallenge.pdb
+src/frontend/kleverchallenge/bin/Debug/net6.0/kleverchallenge.runtimeconfig.json
+src/frontend/kleverchallenge/bin/Debug/net6.0/kleverchallenge.staticwebassets.runtime.json
+src/frontend/kleverchallenge/obj/kleverchallenge.csproj.nuget.dgspec.json
+src/frontend/kleverchallenge/obj/kleverchallenge.csproj.nuget.g.props
+src/frontend/kleverchallenge/obj/kleverchallenge.csproj.nuget.g.targets
+src/frontend/kleverchallenge/obj/project.assets.json
+src/frontend/kleverchallenge/obj/project.nuget.cache
+src/frontend/kleverchallenge/obj/staticwebassets.pack.sentinel
+src/frontend/kleverchallenge/obj/Debug/net6.0/.NETCoreApp,Version=v6.0.AssemblyAttributes.cs
+src/frontend/kleverchallenge/obj/Debug/net6.0/cf1a3bafc3608c96_service.protodep
+src/frontend/kleverchallenge/obj/Debug/net6.0/kleverchallenge.AssemblyInfo.cs
+src/frontend/kleverchallenge/obj/Debug/net6.0/kleverchallenge.AssemblyInfoInputs.cache
+src/frontend/kleverchallenge/obj/Debug/net6.0/kleverchallenge.assets.cache
+src/frontend/kleverchallenge/obj/Debug/net6.0/kleverchallenge.csproj.AssemblyReference.cache
+src/frontend/kleverchallenge/obj/Debug/net6.0/kleverchallenge.csproj.CopyComplete
+src/frontend/kleverchallenge/obj/Debug/net6.0/kleverchallenge.csproj.CoreCompileInputs.cache
+src/frontend/kleverchallenge/obj/Debug/net6.0/kleverchallenge.csproj.FileListAbsolute.txt
+src/frontend/kleverchallenge/obj/Debug/net6.0/kleverchallenge.GeneratedMSBuildEditorConfig.editorconfig
+src/frontend/kleverchallenge/obj/Debug/net6.0/kleverchallenge.genruntimeconfig.cache
+src/frontend/kleverchallenge/obj/Debug/net6.0/kleverchallenge.GlobalUsings.g.cs
+src/frontend/kleverchallenge/obj/Debug/net6.0/kleverchallenge.MvcApplicationPartsAssemblyInfo.cache
+src/frontend/kleverchallenge/obj/Debug/net6.0/kleverchallenge.pdb
+src/frontend/kleverchallenge/obj/Debug/net6.0/kleverchallenge.RazorAssemblyInfo.cache
+src/frontend/kleverchallenge/obj/Debug/net6.0/kleverchallenge.RazorAssemblyInfo.cs
+src/frontend/kleverchallenge/obj/Debug/net6.0/project.razor.json
+src/frontend/kleverchallenge/obj/Debug/net6.0/Service.cs
+src/frontend/kleverchallenge/obj/Debug/net6.0/ServiceGrpc.cs
+src/frontend/kleverchallenge/obj/Debug/net6.0/staticwebassets.build.json
+src/frontend/kleverchallenge/obj/Debug/net6.0/staticwebassets.development.json
+src/frontend/kleverchallenge/obj/Debug/net6.0/scopedcss/bundle/kleverchallenge.styles.css
+src/frontend/kleverchallenge/obj/Debug/net6.0/scopedcss/projectbundle/kleverchallenge.bundle.scp.css
+src/frontend/kleverchallenge/obj/Debug/net6.0/scopedcss/Views/Shared/_Layout.cshtml.rz.scp.css

@@ -10,10 +10,10 @@ public class CryptoController : Controller
 {
     private static GrpcChannel channel = GrpcChannel.ForAddress("http://localhost:50051");
     private CryptoServiceClient client = new CryptoServiceClient(channel);
-    
+
     [HttpGet]
     public IActionResult List()
-{   
+    {
         List<Crypto> cryptos = FindAllCryptos().Result.Cryptos.ToList();
         ViewBag.CryptoList = cryptos;
 
@@ -41,14 +41,19 @@ public class CryptoController : Controller
     [HttpPost]
     public JsonResult Test(string name, string token)
     {
-        var crypto = new CryptoEntity {
-            Id = 999, Name = name, Token = token, Votes = 22, Image = "1011"
+        var crypto = new CryptoEntity
+        {
+            Id = 999,
+            Name = name,
+            Token = token,
+            Votes = 22,
+            Image = "1011"
         };
         return Json(JsonSerializer.Serialize(crypto));
     }
     public async Task<CreateNewCryptoResponse> AddNewCrypto()
     {
-        var request = new CreateNewCryptoRequest{ Name = "Lascado", Token = "LASC" };
+        var request = new CreateNewCryptoRequest { Name = "Lascado", Token = "LASC" };
         return await client.CreateNewCryptoAsync(request);
     }
 

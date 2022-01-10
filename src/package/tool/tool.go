@@ -13,7 +13,7 @@ var ClientAdress = "localhost:50051"
 var Driver = "sqlite3"
 
 //SQLite Database File
-var Database = "./infra/database/kleverchallenge.db"
+var Database = "./src/infra/database/kleverchallenge.db"
 
 //Query to create the CRYPTOCURRENCIES table
 var CreateCryptoTableQuery = `

@@ -6,8 +6,8 @@ import (
 	"log"
 	"time"
 
-	t "github.com/kainbr3/klever.io_challenge/package/tool"
-	pb "github.com/kainbr3/klever.io_challenge/protobuf"
+	t "github.com/kainbr3/klever.io_challenge/src/package/tool"
+	pb "github.com/kainbr3/klever.io_challenge/src/protobuf"
 	grpc "google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )
@@ -36,8 +36,8 @@ func main() {
 	if err != nil {
 		log.Fatalf("======> Could not retrieve cryptos: \n%v", err)
 	}
-	log.Print("\n======> CRYPTO LIST SORTED BY NAME: \n")
-	log.Printf("======> request.GetCryptos(): \n%v", responseListCryptos.Cryptos)
+	log.Print("======> CRYPTO LIST SORTED BY NAME: \n")
+	log.Printf("======> request.GetCryptos(): %v", responseListCryptos.Cryptos)
 	fmt.Print("\n\n")
 
 	//Make the Request and store the Response

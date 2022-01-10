@@ -18,7 +18,6 @@
  * Deliver the whole solution running in some free cloud service
  * Job to take snapshots of the votes every hour and plot a graph
 
-
 ## Project Detais
 | Type  | Detail |
 | --------------- |:-------------:|
@@ -29,11 +28,16 @@
 | Frontend        | .Net6 Web MVC |
 | Cloud Host      |     -         |
 
-
 ## Installation
  *Project requirement:* 
  * [GO (Golang)](https://go.dev/) to run server and client.
  * [.Net 6 (Dotnet 6)](https://dotnet.microsoft.com/en-us/download/dotnet/6.0) to run the Additional Frontend.
+
+## Plugins
+| Plugin  | Readme |
+| --------------- |:-------------:|
+| gRPC Web UI | https://github.com/fullstorydev/grpcui |
+| Go SQLite3  | https://github.com/mattn/go-sqlite3    |
 
 ##### Protobuf File NEEDED OPTIONS
  ```
@@ -54,6 +58,9 @@ service.grpc.pb.go => Contains the auto generated Client and Server Code that we
 
 ##### gRPC Files Generation: (C# - CSharp)
  ```
+ Point the service.proto in the src/protobuf fold and it will be generated when you run/build the donet project
+ 
+ If you want to use the manual command to generate the files, use this
 protoc --proto_path=. --csharp_out=library=service_pb,binary:protobuf --grpc-web_out=import_style=commonjs,mode=grpcwebtext:. protobuf/service.proto
 ```
 
@@ -92,78 +99,80 @@ dotnet watch run
 
 ## Project Structure
 ```
-📦klever-challenge
+📦klever.io_challenge
+ ┣ 📂.git
+ ┣ 📂.vscode
  ┣ 📂src
  ┃ ┣ 📂command
  ┃ ┃ ┣ 📂client
  ┃ ┃ ┃ ┗ 📜client.go
  ┃ ┃ ┗ 📂server
  ┃ ┃ ┃ ┗ 📜server.go
- ┃ ┃ ┣ 📂frontend
- ┃ ┃ ┃ ┗ 📂kleverchallenge
- ┃ ┃ ┃   ┣ 📂Controllers
- ┃ ┃ ┃   ┃ ┣ 📜CryptoController.cs
- ┃ ┃ ┃   ┃ ┗ 📜HomeController.cs
- ┃ ┃ ┃   ┣ 📂Models
- ┃ ┃ ┃   ┃ ┗ 📜ErrorViewModel.cs
- ┃ ┃ ┃   ┣ 📂Properties
- ┃ ┃ ┃   ┃ ┗ 📜launchSettings.json
- ┃ ┃ ┃   ┣ 📂protobuf
- ┃ ┃ ┃   ┃ ┗ 📜service.proto
- ┃ ┃ ┃   ┣ 📂Views
- ┃ ┃ ┃   ┃ ┣ 📂Crypto
- ┃ ┃ ┃   ┃ ┃ ┣ 📜Add.cshtml
- ┃ ┃ ┃   ┃ ┃ ┣ 📜Delete.cshtml
- ┃ ┃ ┃   ┃ ┃ ┣ 📜List.cshtml
- ┃ ┃ ┃   ┃ ┃ ┗ 📜Update.cshtml
- ┃ ┃ ┃   ┃ ┣ 📂Home
- ┃ ┃ ┃   ┃ ┃ ┗ 📜Index.cshtml
- ┃ ┃ ┃   ┃ ┣ 📂Shared
- ┃ ┃ ┃   ┃ ┃ ┣ 📜Error.cshtml
- ┃ ┃ ┃   ┃ ┃ ┣ 📜_Layout.cshtml
- ┃ ┃ ┃   ┃ ┃ ┣ 📜_Layout.cshtml.css
- ┃ ┃ ┃   ┃ ┃ ┗ 📜_ValidationScriptsPartial.cshtml
- ┃ ┃ ┃   ┃ ┣ 📜_ViewImports.cshtml
- ┃ ┃ ┃   ┃ ┗ 📜_ViewStart.cshtml
- ┃ ┃ ┃   ┣ 📂wwwroot
- ┃ ┃ ┃   ┃ ┣ 📂css
- ┃ ┃ ┃   ┃ ┃ ┗ 📜site.css
- ┃ ┃ ┃   ┃ ┣ 📂img
- ┃ ┃ ┃   ┃ ┃ ┣ 📜AXS.png
- ┃ ┃ ┃   ┃ ┃ ┣ 📜BTC.png
- ┃ ┃ ┃   ┃ ┃ ┣ 📜DVK.png
- ┃ ┃ ┃   ┃ ┃ ┣ 📜ETH.png
- ┃ ┃ ┃   ┃ ┃ ┣ 📜KLV.png
- ┃ ┃ ┃   ┃ ┃ ┣ 📜TRX.png
- ┃ ┃ ┃   ┃ ┃ ┗ 📜USDT.png
- ┃ ┃ ┃   ┃ ┣ 📂js
- ┃ ┃ ┃   ┃ ┃ ┗ 📜site.js
- ┃ ┃ ┃   ┃ ┣ 📂lib
- ┃ ┃ ┃   ┃ ┗ 📜favicon.ico
- ┃ ┃ ┃   ┣ 📜appsettings.Development.json
- ┃ ┃ ┃   ┣ 📜appsettings.json
- ┃ ┃ ┃   ┣ 📜kleverchallenge.csproj
- ┃ ┃ ┃   ┗ 📜Program.cs
+ ┃ ┣ 📂frontend
+ ┃ ┃ ┗ 📂kleverchallenge
+ ┃ ┃ ┃ ┣ 📂Controllers
+ ┃ ┃ ┃ ┃ ┣ 📜CryptoController.cs
+ ┃ ┃ ┃ ┃ ┗ 📜HomeController.cs
+ ┃ ┃ ┃ ┣ 📂Models
+ ┃ ┃ ┃ ┃ ┣ 📜CryptoViewModel.cs
+ ┃ ┃ ┃ ┃ ┗ 📜ErrorViewModel.cs
+ ┃ ┃ ┃ ┣ 📂Properties
+ ┃ ┃ ┃ ┃ ┗ 📜launchSettings.json
+ ┃ ┃ ┃ ┣ 📂Views
+ ┃ ┃ ┃ ┃ ┣ 📂Crypto
+ ┃ ┃ ┃ ┃ ┃ ┣ 📜Add.cshtml
+ ┃ ┃ ┃ ┃ ┃ ┣ 📜Delete.cshtml
+ ┃ ┃ ┃ ┃ ┃ ┣ 📜List.cshtml
+ ┃ ┃ ┃ ┃ ┃ ┗ 📜Update.cshtml
+ ┃ ┃ ┃ ┃ ┣ 📂Home
+ ┃ ┃ ┃ ┃ ┃ ┗ 📜Index.cshtml
+ ┃ ┃ ┃ ┃ ┣ 📂Shared
+ ┃ ┃ ┃ ┃ ┃ ┣ 📜Error.cshtml
+ ┃ ┃ ┃ ┃ ┃ ┣ 📜_Layout.cshtml
+ ┃ ┃ ┃ ┃ ┃ ┣ 📜_Layout.cshtml.css
+ ┃ ┃ ┃ ┃ ┃ ┗ 📜_ValidationScriptsPartial.cshtml
+ ┃ ┃ ┃ ┃ ┣ 📜_ViewImports.cshtml
+ ┃ ┃ ┃ ┃ ┗ 📜_ViewStart.cshtml
+ ┃ ┃ ┃ ┣ 📂wwwroot
+ ┃ ┃ ┃ ┃ ┣ 📂css
+ ┃ ┃ ┃ ┃ ┃ ┗ 📜site.css
+ ┃ ┃ ┃ ┃ ┣ 📂img
+ ┃ ┃ ┃ ┃ ┃ ┣ 📜404.png
+ ┃ ┃ ┃ ┃ ┃ ┣ 📜AXS.png
+ ┃ ┃ ┃ ┃ ┃ ┣ 📜BTC.png
+ ┃ ┃ ┃ ┃ ┃ ┣ 📜DVK.png
+ ┃ ┃ ┃ ┃ ┃ ┣ 📜ETH.png
+ ┃ ┃ ┃ ┃ ┃ ┣ 📜KLV.png
+ ┃ ┃ ┃ ┃ ┃ ┣ 📜TRX.png
+ ┃ ┃ ┃ ┃ ┃ ┗ 📜USDT.png
+ ┃ ┃ ┃ ┃ ┣ 📂js
+ ┃ ┃ ┃ ┃ ┃ ┗ 📜site.js
+ ┃ ┃ ┃ ┃ ┣ 📂lib
+ ┃ ┃ ┃ ┃ ┗ 📜favicon.ico
+ ┃ ┃ ┃ ┣ 📜appsettings.Development.json
+ ┃ ┃ ┃ ┣ 📜appsettings.json
+ ┃ ┃ ┃ ┣ 📜kleverchallenge.csproj
+ ┃ ┃ ┃ ┗ 📜Program.cs
  ┃ ┣ 📂infra
  ┃ ┃ ┗ 📂database
  ┃ ┃ ┃ ┗ 📜kleverchallenge.db
  ┃ ┣ 📂package
- ┃ ┃ ┣ 📂api
- ┃ ┃ ┃ ┗ 📜api.go
  ┃ ┃ ┣ 📂model
  ┃ ┃ ┃ ┗ 📜model.go
  ┃ ┃ ┣ 📂repository
  ┃ ┃ ┃ ┗ 📜repository.go
  ┃ ┃ ┗ 📂tool
  ┃ ┃ ┃ ┗ 📜tool.go
- ┃ ┣ 📂protobuf
+ ┃ ┗ 📂protobuf
  ┃ ┃ ┣ 📜service.pb.go
  ┃ ┃ ┣ 📜service.proto
  ┃ ┃ ┗ 📜service_grpc.pb.go
- ┃ ┣ 📜go.mod
- ┃ ┗ 📜go.sum
  ┣ 📜.gitignore
+ ┣ 📜go.mod
+ ┣ 📜go.sum
  ┣ 📜LICENSE
+ ┣ 📜main.go
+ ┣ 📜Makefile
  ┗ 📜README.md
  ```
 

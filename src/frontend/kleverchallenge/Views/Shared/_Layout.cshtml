@@ -11,12 +11,18 @@
 </head>
 
 <body>
-    @{ var view = ViewContext?.RouteData?.Values?["Action"]?.ToString(); }
+    @{
+        var view = ViewContext?.RouteData?.Values?["Action"]?.ToString();
+    }
     <div class="page" b-3dsd3z3yec="">
         <div class="sidebar" b-3dsd3z3yec="">
             <div class="top-row ps-3 navbar navbar-dark" b-7cxxmz0cwl="">
                 <div class="container-fluid" b-7cxxmz0cwl="">
-                    <a class="navbar-brand" href="" b-7cxxmz0cwl="">Klever Challenge</a>
+                    <a class="navbar-brand" class="nav-icon-text" href="" b-7cxxmz0cwl=""><img class="nav-icon"
+                            src="img/KLV.png">KleverChallenge</a>
+                    @* <a b-ym6yl11bb6="" class="navbar-brand" b-7cxxmz0cwl="" href="" b-7cxxmz0cwl=""><img
+                        src="https://camo.githubusercontent.com/1682a4f6d1b5c9469e5f0c84de7aaf550f203def3e80e3053c59064c59f2b698/68747470733a2f2f7062732e7477696d672e636f6d2f70726f66696c655f62616e6e6572732f313338393534353130393937333230303839362f313634303735303330352f3135303078353030"
+                        style="width: 182px; margin-top: -18px; margin-left: -11px;"></a> *@
                     <button title="Navigation menu" class="navbar-toggler" b-7cxxmz0cwl="">
                         <span class="navbar-toggler-icon" b-7cxxmz0cwl=""></span>
                     </button>
@@ -48,16 +54,18 @@
                         <a href="Crypto/Delete" class="@(view == "Delete" ? "nav-link active" : "nav-link")">
                             <span class="oi oi-circle-x" aria-hidden="true" b-7cxxmz0cwl=""></span> Delete Crypto
                         </a>
-                    </div>                                        
+                    </div>
                 </nav>
             </div>
         </div>
         <main b-3dsd3z3yec="">
-            <div class="top-row px-4" b-3dsd3z3yec=""><a href="https://github.com/kainbr3/klever.io_challenge" target="_blank" b-3dsd3z3yec="">About</a></div>
+            <div class="top-row px-4" b-3dsd3z3yec=""><a href="https://github.com/kainbr3/klever.io_challenge"
+                    target="_blank" b-3dsd3z3yec="">About</a></div>
             <article class="content px-4" b-3dsd3z3yec="">
                 @RenderBody()
             </article>
         </main>
     </div>
 </body>
+
 </html>

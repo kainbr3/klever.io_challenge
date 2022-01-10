@@ -1,4 +1,4 @@
-package main
+package server
 
 import (
 	"context"
@@ -6,11 +6,12 @@ import (
 	"log"
 	"net"
 
-	m "github.com/kainbr3/klever.io_challenge/package/model"
-	repo "github.com/kainbr3/klever.io_challenge/package/repository"
-	t "github.com/kainbr3/klever.io_challenge/package/tool"
-	pb "github.com/kainbr3/klever.io_challenge/protobuf"
+	m "github.com/kainbr3/klever.io_challenge/src/package/model"
+	repo "github.com/kainbr3/klever.io_challenge/src/package/repository"
+	t "github.com/kainbr3/klever.io_challenge/src/package/tool"
+	pb "github.com/kainbr3/klever.io_challenge/src/protobuf"
 	grpc "google.golang.org/grpc"
+	ref "google.golang.org/grpc/reflection"
 )
 
 func NewCryptoServiceServer() *CryptoServiceServer {
@@ -31,6 +32,7 @@ func (server *CryptoServiceServer) Run() error {
 
 	//Starts the gRPC Server
 	s := grpc.NewServer()
+	ref.Register(s)
 	pb.RegisterCryptoServiceServer(s, server)
 
 	//Show some message to displat that server is online
@@ -178,7 +180,7 @@ func (server *CryptoServiceServer) GetCryptoById(ctx context.Context, request *p
 // 	return nil, nil
 // }
 
-func main() {
+func Run() {
 	fmt.Print("\n\n")
 	log.Println("======> STARTING THE gRPC SERVER")
 	var cryptoServer *CryptoServiceServer = NewCryptoServiceServer()

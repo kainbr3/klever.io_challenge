@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"log"
 
-	m "github.com/kainbr3/klever.io_challenge/package/model"
-	t "github.com/kainbr3/klever.io_challenge/package/tool"
+	m "github.com/kainbr3/klever.io_challenge/src/package/model"
+	t "github.com/kainbr3/klever.io_challenge/src/package/tool"
 	_ "github.com/mattn/go-sqlite3" //Manually force Import SQLite3 Package to use its driver
 )
 

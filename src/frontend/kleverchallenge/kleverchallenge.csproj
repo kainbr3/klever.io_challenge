@@ -13,7 +13,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <Protobuf Include="Protobuf\service.proto" GrpcServices="Client" />
+    <Protobuf Include="..\..\protobuf\service.proto" GrpcServices="Client" />
   </ItemGroup>
 
 </Project>

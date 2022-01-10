@@ -2,7 +2,8 @@ syntax = "proto3";
 
 package protobuf;
 
-option go_package = "github.com/kainbr3/klever.io_challenge/protobuf;protobuf";
+option go_package = "github.com/kainbr3/klever.io_challenge/src/protobuf;protobuf";
+option csharp_namespace = "KleverGrpcClient";
 
 service CryptoService {
     rpc ListCryptos(ListCryptosRequest) returns (ListCryptosResponse){}
