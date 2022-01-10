@@ -40,7 +40,7 @@
 | Go SQLite3  | https://github.com/mattn/go-sqlite3    |
 
 ##### Protobuf File NEEDED OPTIONS
- ```
+ ```sh
  Golang Version must add this
  option go_package = "github.com/kainbr3/klever.io_challenge/protobuf;protobuf"; 
  
@@ -49,7 +49,7 @@
  ```
 
 ##### gRPC Files Generation: (Golang)
- ```
+ ```sh
 protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative protobuf/service.proto
 ```
 
@@ -57,7 +57,7 @@ protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=p
 service.grpc.pb.go => Contains the auto generated Client and Server Code that we need to implement in our own Client and Server programs*
 
 ##### gRPC Files Generation: (C# - CSharp)
- ```
+ ```sh
  Point the service.proto in the src/protobuf fold and it will be generated when you run/build the donet project
  
  If you want to use the manual command to generate the files, use this
@@ -66,32 +66,34 @@ protoc --proto_path=. --csharp_out=library=service_pb,binary:protobuf --grpc-web
 
 ##### Dedepndencies and Package Go (Golang)
 *From \SRC Folder:*
- ```
+ ```sh
 go mod tidy
 ```
 
 ##### Dedepndencies and Package C# (CSharp)
-*From \SRC\FRONTEND Folder:*
- ```
+*From /SRC/FRONTEND Folder:*
+ ```sh
 dotnet restore
 dotnet build
 ```
 
 ## Starting the Server
-*From \SRC Folder:*
+*From /ROOT Folder:*
+```sh
+go run main.go
 ```
-go run command/server/server.go
-```
+server ip: Port
+grpcui -plaintext localhost:50051
 
 ## Starting the CLient
-*From \SRC Folder:*
-```
-go run command/server/client.go
+*From /ROOT Folder:*
+```sh
+go run src/command/server/client.go
 ```
 
 ## Starting the FRONT END
-*From \SRC|FRONTEND Folder:*
-```
+*From /SRC/FRONTEND Folder:*
+```sh
 dotnet run
 <Command with Hot Reload Support>
 dotnet watch run
