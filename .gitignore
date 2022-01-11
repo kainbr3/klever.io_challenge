@@ -49,3 +49,6 @@ src/frontend/kleverchallenge/obj/Debug/net6.0/staticwebassets.development.json
 src/frontend/kleverchallenge/obj/Debug/net6.0/scopedcss/bundle/kleverchallenge.styles.css
 src/frontend/kleverchallenge/obj/Debug/net6.0/scopedcss/projectbundle/kleverchallenge.bundle.scp.css
 src/frontend/kleverchallenge/obj/Debug/net6.0/scopedcss/Views/Shared/_Layout.cshtml.rz.scp.css
+src/frontend/kleverchallenge/obj/Debug/net6.0/9d3fdc41fc61615e_service.protodep
+src/frontend/kleverchallenge/obj/Debug/net6.0/Protobuf/Service.cs
+src/frontend/kleverchallenge/obj/Debug/net6.0/Protobuf/ServiceGrpc.cs
