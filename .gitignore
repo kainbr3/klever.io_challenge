@@ -52,3 +52,4 @@ src/frontend/kleverchallenge/obj/Debug/net6.0/scopedcss/Views/Shared/_Layout.csh
 src/frontend/kleverchallenge/obj/Debug/net6.0/9d3fdc41fc61615e_service.protodep
 src/frontend/kleverchallenge/obj/Debug/net6.0/Protobuf/Service.cs
 src/frontend/kleverchallenge/obj/Debug/net6.0/Protobuf/ServiceGrpc.cs
+src/infra/database/kleverchallenge.db
