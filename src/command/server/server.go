@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net"
+	"strings"
 
 	m "github.com/kainbr3/klever.io_challenge/src/package/model"
 	repo "github.com/kainbr3/klever.io_challenge/src/package/repository"
@@ -84,10 +85,11 @@ func (server *CryptoServiceServer) ListCryptos(ctx context.Context, request *pb.
 	case "votes":
 		cryptos = repo.FindAllCryptosSortedByTopVotes(server.conn.DB)
 	default:
+		request.Sortparam = "ID"
 		cryptos = repo.FindAllCryptos(server.conn.DB)
 	}
 
-	log.Print("======> Crypto List from Database\n")
+	log.Print("======> Crypto List from Database Sorted by ", strings.ToUpper(request.GetSortparam()), "\n")
 	log.Println(cryptos)
 	fmt.Print("\n\n")
 
@@ -176,9 +178,20 @@ func (server *CryptoServiceServer) GetCryptoById(ctx context.Context, request *p
 	}, nil
 }
 
-// func (server *CryptoServiceServer) ObserveCrypto(ctx context.Context, request *pb.ObserveCryptoRequest) (pb.CryptoService_ObserveCryptoClient, error) {
-// 	return nil, nil
-// }
+func (server *CryptoServiceServer) ObserveCrypto(request *pb.ObserveCryptoRequest, streaming pb.CryptoService_ObserveCryptoServer) error {
+	log.Printf("fetch response for id : %d", request.Id)
+
+	crypto_found := repo.FindCryptoById(server.conn.DB, int(request.Id))
+	streaming.Send(&pb.ObserveCryptoResponse{
+		Crypto: &pb.Crypto{
+			Id:    int32(crypto_found.Id),
+			Name:  crypto_found.Name,
+			Token: crypto_found.Token,
+			Votes: int32(crypto_found.Votes),
+		},
+	})
+	return nil
+}
 
 func Run() {
 	fmt.Print("\n\n")
