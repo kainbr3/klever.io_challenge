@@ -26,10 +26,10 @@ func main() {
 	client := pb.NewCryptoServiceClient(connection)
 
 	//Get the Context
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	//Make the Request and store the Response
+	// //Make the Request and store the Response
 	responseListCryptos, err := client.ListCryptos(ctx, &pb.ListCryptosRequest{
 		Sortparam: "name",
 	})

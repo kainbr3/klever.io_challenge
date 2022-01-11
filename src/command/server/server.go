@@ -51,7 +51,7 @@ func (server *CryptoServiceServer) CreateNewCrypto(ctx context.Context, request 
 	log.Printf("======> TOKEN: %v", request.GetToken())
 	fmt.Print("\n\n")
 
-	crypto_created := repo.AddCrypto(server.conn.DB, m.CryptoCurrency{
+	crypto_created := repo.AddCrypto(server.conn.DB, ctx, m.CryptoCurrency{
 		Name:  request.GetName(),
 		Token: request.GetToken(),
 		Votes: 0,
@@ -79,7 +79,7 @@ func (server *CryptoServiceServer) ListCryptos(ctx context.Context, request *pb.
 
 	switch request.Sortparam {
 	case "name":
-		cryptos = repo.FindAllCryptosSortedByName(server.conn.DB)
+		cryptos = repo.FindAllCryptosSortedByName(server.conn.DB, ctx)
 	case "token":
 		cryptos = repo.FindAllCryptosSortedByToken(server.conn.DB)
 	case "votes":
@@ -201,7 +201,7 @@ func Run() {
 	log.Println("======> Databased Ready: \n", cryptoServer.conn.DB.Stats())
 	fmt.Print("\n\n")
 
-	//repo.BuildDatabase(cryptoServer.conn.DB, true)
+	repo.BuildDatabase(cryptoServer.conn.DB, true)
 	defer cryptoServer.conn.DB.Close()
 
 	if err := cryptoServer.Run(); err != nil {
