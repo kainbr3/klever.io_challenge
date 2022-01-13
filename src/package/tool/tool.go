@@ -12,7 +12,7 @@ var (
 //Database variables
 var (
 	Driver           string = "sqlserver"
-	server           string = "localhost"
+	server           string = "127.0.0.1"
 	port             int    = 1433
 	user             string = "sa"
 	password         string = "123qwe!@#"
@@ -25,6 +25,7 @@ var (
 	DeleteAllFromTable string = "DELETE FROM %s"
 	ReseedTable        string = "UPDATE sqlite_sequence SET seq = (SELECT COUNT(*) FROM %s) WHERE name = '%s'"
 	DropTable          string = "DROP TABLE %s;"
+	SetWaitingTime     string = "WAITFOR DELAY '00:00:015';"
 )
 
 //Repository Queries
@@ -37,16 +38,16 @@ var (
 	SelectCryptoByIdQuery                   string = "SELECT * FROM cryptoCurrencies WHERE id = %d"
 	SelectCryptoByNameQuery                 string = "SELECT * FROM cryptoCurrencies WHERE name = '%s'"
 	SelectCryptoByTokenQuery                string = "SELECT * FROM cryptoCurrencies WHERE token = '%s'"
-	InsertCrypto                            string = "INSERT INTO cryptoCurrencies (name, token, votes) OUTPUT Inserted.id, Inserted.name, Inserted.token, Inserted.votes VALUES (%s, %s, %d);"
-	UpdateCryptoQuery                       string = "UPDATE cryptoCurrencies SET name = %s, token = %s, votes = %d WHERE id = %d"
-	DeleteCryptoById                        string = "DELETE FROM cryptoCurrencies WHERE id = %d"
+	InsertCrypto                            string = "INSERT INTO cryptoCurrencies (name, token, votes) OUTPUT Inserted.id, Inserted.name, Inserted.token, Inserted.votes VALUES ('%s', '%s', %d);"
+	UpdateCryptoQuery                       string = "UPDATE cryptoCurrencies SET name = '%s', token = '%s', votes = %d OUTPUT Inserted.id, Inserted.name, Inserted.token, Inserted.votes WHERE id = %d"
+	DeleteCryptoById                        string = "DELETE FROM cryptoCurrencies OUTPUT deleted.id WHERE id = %d"
 	UpvoteCryptoQuery                       string = "UPDATE cryptoCurrencies SET votes = votes + 1 WHERE id = %d"
 	DownvoteCryptoQuery                     string = "UPDATE cryptoCurrencies SET votes = votes - 1 WHERE id = %d"
 )
 
 //Database table creation, seeding and utility squeries
 var (
-	CreateDatabaseQuery    string = "IF NOT EXISTS(SELECT * FROM sys.databases WHERE name = 'kleverchallenge') BEGIN CREATE DATABASE kleverchallenge; END"
+	CreateDatabaseQuery    string = "use master IF NOT EXISTS(SELECT * FROM sys.databases WHERE name = 'kleverchallenge') BEGIN CREATE DATABASE kleverchallenge; END"
 	CreateCryptoTableQuery string = "IF NOT EXISTS (SELECT * FROM SYSOBJECTS WHERE name =  'cryptoCurrencies') BEGIN CREATE TABLE cryptoCurrencies (id int IDENTITY(1,1) NOT NULL PRIMARY KEY, name varchar(255) NOT NULL, token varchar(255) NOT NULL, votes int NOT NULL); END"
 	DeleteOldDataQuery     string = "DELETE FROM cryptoCurrencies"
 	ReseedIdentityQuery    string = "UPDATE sqlite_sequence SET seq = (SELECT COUNT(*) FROM cryptoCurrencies) WHERE name = 'cryptoCurrencies'"

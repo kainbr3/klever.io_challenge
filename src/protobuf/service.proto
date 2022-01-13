@@ -6,18 +6,23 @@ option go_package = "github.com/kainbr3/klever.io_challenge/src/protobuf;protobu
 option csharp_namespace = "KleverGrpcClient";
 
 service CryptoService {
-    rpc ListCryptos(ListCryptosRequest) returns (ListCryptosResponse){}
-    rpc GetCryptoById(GetCryptoByIdRequest) returns (GetCryptoByIdResponse){}
+    rpc GetCryptoById(GetCryptoByIdRequest) returns (GetCryptoByIdResponse) {}
 
-    rpc CreateNewCrypto(CreateNewCryptoRequest) returns (CreateNewCryptoResponse){}
-    rpc UpdateCrypto(UpdateCryptoRequest) returns (UpdateCryptoResponse){}
-    rpc DeleteCrypto(DeleteCryptoRequest) returns (EmptyResponse){}
+    rpc CreateNewCrypto(CreateNewCryptoRequest) returns (CreateNewCryptoResponse) {}
+    rpc UpdateCrypto(UpdateCryptoRequest) returns (UpdateCryptoResponse) {}
+    rpc DeleteCrypto(DeleteCryptoRequest) returns (EmptyResponse) {}
 
-    rpc UpvoteCrypto(UpvoteCryptoRequest) returns (EmptyResponse){}
-    rpc DownvoteCrypto(DownvoteCryptoRequest) returns (EmptyResponse){}
+    rpc UpvoteCrypto(UpvoteCryptoRequest) returns (EmptyResponse) {}
+    rpc DownvoteCrypto(DownvoteCryptoRequest) returns (EmptyResponse) {}
 
-    rpc ObserveCrypto(ObserveCryptoRequest) returns (stream ObserveCryptoResponse){}
+    rpc ListCryptos(ListCryptosRequest) returns (ListCryptosResponse) {}
+
+    rpc ObserveCrypto(ObserveCryptoRequest) returns (stream ObserveCryptoResponse) {}
 }
+
+message EmptyRequest{}
+
+message EmptyResponse{}
 
 message Crypto{
     int32 id = 1;
@@ -25,10 +30,6 @@ message Crypto{
 	string token = 3;
 	int32 votes = 4;
 }
-
-message EmptyRequest{}
-
-message EmptyResponse{}
 
 message ListCryptosRequest{
     string sortparam = 1;
