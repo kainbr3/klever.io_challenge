@@ -63,7 +63,7 @@ func (server *CryptoServiceServer) CreateNewCrypto(ctx context.Context, request 
 		Votes: 0,
 	})
 	if err != nil {
-		log.Printf("Error while saving crypto: \n%v", err)
+		log.Printf("======> Error while saving crypto: \n%v", err)
 
 		//Return the Response with the Null Crypto and the Errors
 		return nil, err
@@ -119,7 +119,7 @@ func (server *CryptoServiceServer) UpdateCrypto(ctx context.Context, request *pb
 		Votes: int(request.GetCrypto().GetVotes()),
 	})
 	if err != nil {
-		log.Printf("Error while updating crypto: \n%v", err)
+		log.Printf("======> Error while updating crypto: \n%v", err)
 
 		//Return the Response with the Null Crypto and the Errors
 		return nil, err
@@ -236,10 +236,13 @@ func (server *CryptoServiceServer) DeleteCrypto(ctx context.Context, request *pb
 
 //Function to Stream a Crypto
 func (server *CryptoServiceServer) ObserveCrypto(request *pb.ObserveCryptoRequest, streaming pb.CryptoService_ObserveCryptoServer) error {
-	log.Printf("Streaming Crypto ID : %d", request.Id)
+	log.Printf("======> Streaming Crypto ID : %d", request.Id)
 
 	//Find the Crypto by ID
 	crypto_found, err := repo.FindCryptoById(server.conn.DB, context.Background(), int(request.Id))
+	if err != nil {
+		log.Println("======> Error while trying to stream")
+	}
 
 	//Starts the Streaming it to the Client
 	streaming.Send(&pb.ObserveCryptoResponse{
@@ -262,7 +265,7 @@ func (server *CryptoServiceServer) ListCryptos(ctx context.Context, request *pb.
 	//Create a Crypto Array to Store the Result List
 	cryptos, err := repo.FindAllCryptos(server.conn.DB, ctx, sortParameter)
 	if err != nil {
-		log.Println("Error while retrieving list ", err)
+		log.Println("======> Error while retrieving list ", err)
 		return nil, err
 	}
 
