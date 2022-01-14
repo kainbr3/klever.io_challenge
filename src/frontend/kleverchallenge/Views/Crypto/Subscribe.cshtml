@@ -1,4 +1,5 @@
-﻿@{
+﻿@model kleverchallenge.Models.CryptoEntity;
+@{
     ViewData["Title"] = "Delete Crypto Page";
 }
 
@@ -7,5 +8,9 @@
     <h1 class="display-4">Delete Crypto</h1>
 
     <p>TThis page uses a gRPC service</p>
+
+    <span>@Model?.Id?</span>
+    <span>@Model?.Name?</span>
+    <span>@Model?.Votes?</span>
 
 </div>

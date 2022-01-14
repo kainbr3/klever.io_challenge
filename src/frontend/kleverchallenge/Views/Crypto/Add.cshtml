@@ -35,7 +35,7 @@
         <div class="col-6">
             <div class="mb-3">
                 <label for="Image" class="form-label">Choose a Image to represent the coin</label>
-                <input class="form-control" name="CryptoEntity.Image" type="file" id="Image" required>
+                <input class="form-control" name="CryptoEntity.Image" type="file" id="Image">
             </div>
         </div>
     </div>
@@ -45,35 +45,81 @@
         <div class="col-9">
             <div class="mb-3">
                 @* <button type="button" id="btn-save" class="btn btn-lg btn-primary">Save</button> *@
-                <button type="submit" id="btn-save" class="btn btn-lg btn-primary">Save</button>
+                <button type="button" id="btn-crypto" class="btn btn-lg btn-primary">Add</button>
             </div>
         </div>
     </div>
 </form>
 
+<!-- The Modal -->
+<div class="modal" id="modal-result">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Add Crypto Result</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body" id="modal-msg">
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="modal-close">Close</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 @section scripts {
 <script type="text/javascript">
     window.onload = function () {
-        const btn = document.getElementById("btn-save");
+        const btn = document.getElementById("btn-crypto");
+        const close = document.getElementById("modal-close");
+
+        close.addEventListener("click", function (e) {
+            window.location = "/Crypto/List";
+        }, false);
+
 
         btn.addEventListener("click", function (e) {
-            var crypto = {
-                Name: document.getElementById("Name").value,
-                Token: document.getElementById("Token").value
-            };
+            var name = document.getElementById("Name").value;
+            var token = document.getElementById("Token").value;
+            const options = { method: 'POST', body: JSON.stringify("") };
 
-            const options = {
-                method: 'POST',
-                body: JSON.stringify(crypto)
-            };
-
-            console.log(crypto);
-            console.log(crypto.Name);
-            console.log(crypto.Token);
-            console.log(JSON.stringify(crypto));
-
-            fetch('/Crypto/Test?name=' + crypto.Name + '&token=' + crypto.Token, options).then(T => T.json()).then(console.log)
+            if(name != "" && token != ""){
+                SaveCrypto(name, token); 
+            }
+            else{
+                alert('ERROR!');
+            }
         }, false);
+
+    }
+
+    async function SaveCrypto(name, token){
+        const options = {
+            method: 'POST'
+        };
+
+        var response = await fetch('/Crypto/Insert?name=' + name + '&token=' + token, options);
+        var result = await response.json();
+        var crypto = result.crypto;
+        var modal = new bootstrap.Modal(document.getElementById("modal-result"), {});
+
+        if(crypto.id > 0){
+            console.log(crypto);
+            document.getElementById("modal-msg").innerHTML = "Sucess saving Crypto. Logged in Console";
+            modal.show();
+        }
+        else{
+            document.getElementById("modal-msg").innerHTML = "Error. Any Crypto Added";
+            modal.show();            
+        }
     }
 </script>
 }

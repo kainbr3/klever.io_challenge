@@ -16,13 +16,4 @@ public class CryptoEntity
     public int Votes { get; set; }
     public string? Image { get; set; }
 
-    // public CryptoEntity()
-    // {
-    //     Image = GetCyptoImage(Token);
-    // }
-
-    // public string GetCyptoImage(string? tokenName)
-    // {
-    //     return "";
-    // }
 }

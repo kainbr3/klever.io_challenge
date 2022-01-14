@@ -1,0 +1,76 @@
+﻿@{
+    ViewData["Title"] = "List Cryptos Page";
+}
+
+<div class="text-center">
+
+    <h1 class="display-4">Manage Cryptos</h1>
+
+    <p>This page fetch data from a gRPC service.</p>
+
+</div>
+
+<table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Icon</th>
+                <th>Name</th>
+                <th>Token</th>
+                <th>Votes</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var coin in ViewBag.CryptoList)
+            {
+                var imgPath = $@"img/{coin.Token.ToUpper()}.png";
+                <tr>
+                    <td>@(ViewBag.CryptoList.IndexOf(coin)+1)</td>
+                    <td><img class="token-img" src="@imgPath" width="40px"/></td>
+                    <td>@coin.Name</td>
+                    <td>@coin.Token</td>
+                    <td>@coin.Votes</td>
+                    <td>
+                        <img class="token-img" src="actions-img/up.png" width="40px" onclick="Upvote(@coin.Id);" style="cursor:pointer"/>
+                        <img class="token-img" src="actions-img/down.png" width="40px" onclick="Downvote(@coin.Id);" style="cursor:pointer"/>
+                        <img class="token-img" src="actions-img/edit.png" width="40px" onclick="Edit(@coin.Id);" style="cursor:pointer"/>
+                        <img class="token-img" src="actions-img/delete.png" width="40px" onclick="Delete(@coin.Id);" style="cursor:pointer"/>
+                        <img class="token-img" src="actions-img/stream.png" width="40px" onclick="Subscribe(@coin.Id);" style="cursor:pointer"/>
+                    </td>
+                </tr>
+            }
+        </tbody>
+</table>
+
+@section scripts {
+    <script type="text/javascript">
+        window.onload = function() {
+            document.querySelectorAll(".token-img").forEach(function(token, i) {
+                var img = new Image();
+                img.src = token.src;
+                if(!img.height != 0) token.src = "img/404.png";
+            })            
+        };
+
+        function Upvote(id){
+            console.log(id);
+        }
+
+        function Downvote(id){
+            console.log(id);
+        }
+
+        function Edit(id){
+            window.location = "/Crypto/Update/?cryptoId=" + id;
+        }
+
+        function Delete(id){
+            console.log(id);
+        }            
+
+        function Subscribe(id){
+            window.location = "/Crypto/Subscribe/?cryptoId=" + id;
+        }    
+    </script>
+}
