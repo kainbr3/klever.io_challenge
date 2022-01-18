@@ -12,3 +12,6 @@ grpc-ui:
 
 mod:
 	go mod tidy
+
+web:
+	dotnet watch -p src/frontend/kleverchallenge/kleverchallenge.csproj run
