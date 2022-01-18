@@ -204,12 +204,12 @@ func FindCryptoById(database *sql.DB, ctx context.Context, cryptoId int) (m.Cryp
 		return crypto, errors.New("invalid value for Id")
 	}
 
-	//Sets a 5 second timeout to prevent being stuck
-	ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
+	//Sets a 30 second timeout to prevent being stuck
+	ctx, cancel := context.WithTimeout(ctx, 30*time.Second)
 	defer cancel()
 
 	//Prepare query
-	query := fmt.Sprintf(t.SetDatabase+t.SelectCryptoByIdQuery, cryptoId)
+	query := fmt.Sprintf(t.SelectCryptoByIdQuery, cryptoId)
 
 	//Begin transaction
 	transaction, err := database.BeginTx(ctx, nil)
@@ -223,10 +223,10 @@ func FindCryptoById(database *sql.DB, ctx context.Context, cryptoId int) (m.Cryp
 	var id, votes int
 
 	//Execute query and scan the values from the result
-	result := transaction.QueryRowContext(ctx, query).Scan(&id, &name, &token, &votes)
-	if result != nil {
+	err = transaction.QueryRowContext(ctx, query).Scan(&id, &name, &token, &votes)
+	if err != nil {
 		transaction.Rollback()
-		log.Printf("======> Error while executing statement: \n%s", query)
+		log.Printf("======> Error while executing statement: \n%s \n%v", query, err)
 		return crypto, err
 	}
 

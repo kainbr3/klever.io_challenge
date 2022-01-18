@@ -6,6 +6,7 @@ import (
 	"log"
 	"net"
 	"strings"
+	"time"
 
 	m "github.com/kainbr3/klever.io_challenge/src/package/model"
 	repo "github.com/kainbr3/klever.io_challenge/src/package/repository"
@@ -238,23 +239,34 @@ func (server *CryptoServiceServer) DeleteCrypto(ctx context.Context, request *pb
 func (server *CryptoServiceServer) ObserveCrypto(request *pb.ObserveCryptoRequest, streaming pb.CryptoService_ObserveCryptoServer) error {
 	log.Printf("======> Streaming Crypto ID : %d", request.Id)
 
-	//Find the Crypto by ID
-	crypto_found, err := repo.FindCryptoById(server.conn.DB, context.Background(), int(request.Id))
-	if err != nil {
-		log.Println("======> Error while trying to stream")
+	// Start a ticker that executes each 1 seconds
+	timer := time.NewTicker(1 * time.Second)
+
+	for {
+		select {
+		// Exit on stream context done
+		case <-streaming.Context().Done():
+			return nil
+		case <-timer.C:
+			// //Find the Crypto by ID
+			crypto_found, err := repo.FindCryptoById(server.conn.DB, context.Background(), int(request.Id))
+			if err != nil {
+				log.Println("======> Error while retrieving crypto")
+			}
+			// Send the Hardware stats on the stream
+			err = streaming.Send(&pb.ObserveCryptoResponse{
+				Crypto: &pb.Crypto{
+					Id:    int32(crypto_found.Id),
+					Name:  crypto_found.Name,
+					Token: crypto_found.Token,
+					Votes: int32(crypto_found.Votes),
+				},
+			})
+			if err != nil {
+				log.Println(err.Error())
+			}
+		}
 	}
-
-	//Starts the Streaming it to the Client
-	streaming.Send(&pb.ObserveCryptoResponse{
-		Crypto: &pb.Crypto{
-			Id:    int32(crypto_found.Id),
-			Name:  crypto_found.Name,
-			Token: crypto_found.Token,
-			Votes: int32(crypto_found.Votes),
-		},
-	})
-
-	return err
 }
 
 //Funct to Retrieve a Crypto List
