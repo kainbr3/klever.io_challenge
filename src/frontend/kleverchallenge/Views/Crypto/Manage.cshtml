@@ -32,20 +32,50 @@
                     <td>@coin.Token</td>
                     <td>@coin.Votes</td>
                     <td>
-                        <img class="token-img" src="actions-img/up.png" width="40px" onclick="Upvote(@coin.Id);" style="cursor:pointer"/>
-                        <img class="token-img" src="actions-img/down.png" width="40px" onclick="Downvote(@coin.Id);" style="cursor:pointer"/>
-                        <img class="token-img" src="actions-img/edit.png" width="40px" onclick="Edit(@coin.Id);" style="cursor:pointer"/>
-                        <img class="token-img" src="actions-img/delete.png" width="40px" onclick="Delete(@coin.Id);" style="cursor:pointer"/>
-                        <img class="token-img" src="actions-img/stream.png" width="40px" onclick="Subscribe(@coin.Id);" style="cursor:pointer"/>
+                        <img class="token-img" src="actions-img/up.png" width="40px" onclick="Upvote(@coin.Id)" style="cursor:pointer"/>
+                        <img class="token-img" src="actions-img/down.png" width="40px" onclick="Downvote(@coin.Id)" style="cursor:pointer"/>
+                        <img class="token-img" src="actions-img/edit.png" width="40px" onclick="Edit(@coin.Id)" style="cursor:pointer"/>
+                        <img class="token-img" src="actions-img/delete.png" width="40px" onclick="Delete(@coin.Id)" style="cursor:pointer"/>
+                        <img class="token-img" src="actions-img/stream.png" width="40px" onclick="Subscribe(@coin.Id)" style="cursor:pointer"/>
                     </td>
                 </tr>
             }
         </tbody>
 </table>
 
+<!-- The Modal -->
+<div class="modal" id="modal-result">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Save Crypto Result</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body" id="modal-msg">
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="modal-close">Close</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 @section scripts {
     <script type="text/javascript">
         window.onload = function() {
+            const close = document.getElementById("modal-close");
+
+            close.addEventListener("click", function (e) {
+                window.location.reload();
+            }, false);
+
             document.querySelectorAll(".token-img").forEach(function(token, i) {
                 var img = new Image();
                 img.src = token.src;
@@ -53,23 +83,50 @@
             })            
         };
 
-        function Upvote(id){
-            console.log(id);
+        async function Upvote(id){
+            const options = { method: 'POST' };
+            var response = await fetch('/Crypto/Upvote?cryptoId=' + id, options);
+            var result = await response.json();
+            if(response.status != 200){
+                console.log(result);
+                alert(result);
+            }
+            var modal = new bootstrap.Modal(document.getElementById("modal-result"), {});
+            document.getElementById("modal-msg").innerHTML = "Crypto Vote Registred!";
+            modal.show();
         }
 
-        function Downvote(id){
-            console.log(id);
+        async function Downvote(id){
+            const options = { method: 'POST' };
+            var response = await fetch('/Crypto/Downvote?cryptoId=' + id, options);
+            var result = await response.json();
+            if(response.status != 200){
+                console.log(result);
+                alert(result);
+            }
+            var modal = new bootstrap.Modal(document.getElementById("modal-result"), {});
+            document.getElementById("modal-msg").innerHTML = "Crypto Vote Registred!";
+            modal.show();
         }
 
         function Edit(id){
             window.location = "/Crypto/Update/?cryptoId=" + id;
         }
 
-        function Delete(id){
-            console.log(id);
+        async function Delete(id){
+            const options = { method: 'POST' };
+            var response = await fetch('/Crypto/Remove?cryptoId=' + id, options);
+            var result = await response.json();
+            if(response.status != 200){
+                console.log(result);
+                alert(result);
+            }
+            var modal = new bootstrap.Modal(document.getElementById("modal-result"), {});
+            document.getElementById("modal-msg").innerHTML = "Crypto deleted successfully!";
+            modal.show();
         }            
 
-        function Subscribe(id){
+        async function Subscribe(id){
             window.location = "/Crypto/Subscribe/?cryptoId=" + id;
         }    
     </script>

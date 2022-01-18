@@ -16,7 +16,7 @@ var (
 	port             int    = 1433
 	user             string = "sa"
 	password         string = "123qwe!@#"
-	ConnectionString string = fmt.Sprintf("server=%s;user id=%s;password=%s;port=%d", server, user, password, port)
+	ConnectionString string = fmt.Sprintf("server=%s;user id=%s;password=%s;port=%d; initial catalog=kleverchallenge; integrated security=True;", server, user, password, port)
 )
 
 //Utility Queries
@@ -40,9 +40,9 @@ var (
 	SelectCryptoByTokenQuery                string = "SELECT * FROM cryptoCurrencies WHERE token = '%s'"
 	InsertCrypto                            string = "INSERT INTO cryptoCurrencies (name, token, votes) OUTPUT Inserted.id, Inserted.name, Inserted.token, Inserted.votes VALUES ('%s', '%s', %d);"
 	UpdateCryptoQuery                       string = "UPDATE cryptoCurrencies SET name = '%s', token = '%s', votes = %d OUTPUT Inserted.id, Inserted.name, Inserted.token, Inserted.votes WHERE id = %d"
+	UpvoteCryptoQuery                       string = "UPDATE cryptoCurrencies SET votes = votes + 1 OUTPUT Inserted.id WHERE id = %d"
+	DownvoteCryptoQuery                     string = "UPDATE cryptoCurrencies SET votes = votes - 1 OUTPUT Inserted.id WHERE id = %d"
 	DeleteCryptoById                        string = "DELETE FROM cryptoCurrencies OUTPUT deleted.id WHERE id = %d"
-	UpvoteCryptoQuery                       string = "UPDATE cryptoCurrencies SET votes = votes + 1 WHERE id = %d"
-	DownvoteCryptoQuery                     string = "UPDATE cryptoCurrencies SET votes = votes - 1 WHERE id = %d"
 )
 
 //Database table creation, seeding and utility squeries

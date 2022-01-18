@@ -179,8 +179,8 @@ func (server *CryptoServiceServer) UpvoteCrypto(ctx context.Context, request *pb
 	cryptoId := int(request.GetId())
 
 	//Update the Crypto
-	err := repo.UpvoteCryptoById(server.conn.DB, ctx, cryptoId)
-	if err != nil {
+	updatedId, err := repo.UpvoteCryptoById(server.conn.DB, ctx, cryptoId)
+	if err != nil && !(updatedId > 0) {
 		log.Printf("======> Could not locate Crypto ID = %d \n%v", cryptoId, err)
 
 		//Return the Response with the Null Crypto and the Errors
@@ -201,8 +201,8 @@ func (server *CryptoServiceServer) DownvoteCrypto(ctx context.Context, request *
 	cryptoId := int(request.GetId())
 
 	//Update the Crypto
-	err := repo.DownvoteCryptoById(server.conn.DB, ctx, cryptoId)
-	if err != nil {
+	updatedId, err := repo.DownvoteCryptoById(server.conn.DB, ctx, cryptoId)
+	if err != nil && !(updatedId > 0) {
 		log.Printf("======> Could not locate Crypto ID = %d \n%v", cryptoId, err)
 
 		//Return the Response with the Null Crypto and the Errors

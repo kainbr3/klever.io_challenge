@@ -250,10 +250,10 @@ func FindCryptoById(database *sql.DB, ctx context.Context, cryptoId int) (m.Cryp
 }
 
 //Function to Add a Vote to Given Crypto
-func UpvoteCryptoById(database *sql.DB, ctx context.Context, cryptoId int) error {
+func UpvoteCryptoById(database *sql.DB, ctx context.Context, cryptoId int) (int, error) {
 	//Validate the ID Parameter
 	if cryptoId == 0 {
-		return errors.New("invalid value for Id")
+		return 0, errors.New("invalid value for Id")
 	}
 
 	//Sets a 5 second timeout to prevent being stuck
@@ -261,39 +261,42 @@ func UpvoteCryptoById(database *sql.DB, ctx context.Context, cryptoId int) error
 	defer cancel()
 
 	//Prepare query
-	query := fmt.Sprintf(t.SetDatabase+t.UpvoteCryptoQuery, cryptoId)
+	query := fmt.Sprintf(t.UpvoteCryptoQuery, cryptoId)
 
 	//Begin transaction
 	transaction, err := database.BeginTx(ctx, nil)
 	if err != nil {
 		log.Printf("======> Error starting new Transaction")
-		return err
+		return 0, err
 	}
 
 	//Execute query and scan the values from the result
 	result := transaction.QueryRowContext(ctx, query)
-	if result != nil {
+	if result == nil {
+		fmt.Println(err)
 		transaction.Rollback()
-		log.Printf("======> Error while executing statement: \n%s", query)
-		return err
+		log.Printf("======> Error while executing statement: \n%s \n%v", query, result)
+		return 0, nil
 	}
 
 	//Commit the transaction
 	err = transaction.Commit()
-	if err != nil {
+	updatedId := 0
+	result.Scan(&updatedId)
+	if err != nil && !(updatedId > 0) {
 		transaction.Rollback()
 		log.Printf("======> Error while commiting changes to database: \n%v", err)
-		return err
+		return updatedId, err
 	}
 
-	return nil
+	return updatedId, nil
 }
 
 //Function to Subtract a Vote to Given Crypto
-func DownvoteCryptoById(database *sql.DB, ctx context.Context, cryptoId int) error {
+func DownvoteCryptoById(database *sql.DB, ctx context.Context, cryptoId int) (int, error) {
 	//Validate the ID Parameter
 	if cryptoId == 0 {
-		return errors.New("invalid value for Id")
+		return 0, errors.New("invalid value for Id")
 	}
 
 	//Sets a 5 second timeout to prevent being stuck
@@ -301,32 +304,35 @@ func DownvoteCryptoById(database *sql.DB, ctx context.Context, cryptoId int) err
 	defer cancel()
 
 	//Prepare query
-	query := fmt.Sprintf(t.SetDatabase+t.DownvoteCryptoQuery, cryptoId)
+	query := fmt.Sprintf(t.DownvoteCryptoQuery, cryptoId)
 
 	//Begin transaction
 	transaction, err := database.BeginTx(ctx, nil)
 	if err != nil {
 		log.Printf("======> Error starting new Transaction")
-		return err
+		return 0, err
 	}
 
 	//Execute query and scan the values from the result
 	result := transaction.QueryRowContext(ctx, query)
-	if result != nil {
+	if result == nil {
+		fmt.Println(err)
 		transaction.Rollback()
-		log.Printf("======> Error while executing statement: \n%s", query)
-		return err
+		log.Printf("======> Error while executing statement: \n%s \n%v", query, result)
+		return 0, nil
 	}
 
 	//Commit the transaction
 	err = transaction.Commit()
-	if err != nil {
+	updatedId := 0
+	result.Scan(&updatedId)
+	if err != nil && !(updatedId > 0) {
 		transaction.Rollback()
 		log.Printf("======> Error while commiting changes to database: \n%v", err)
-		return err
+		return updatedId, err
 	}
 
-	return nil
+	return updatedId, nil
 }
 
 //Function to Delete a Crypto by its ID
