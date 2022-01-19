@@ -1,0 +1,36 @@
+version: "3.9"
+services:
+  db:
+    container_name: "kleverchallengedatabase"
+    build:
+      context: .
+      dockerfile: db.Dockerfile
+    networks:
+      - default
+    restart: always
+    ports:
+      - "1433:1433"
+    expose:
+      - '1433'
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "123qwe!@#"
+      MSSQL_PID: "Express"
+  app:
+    container_name: "kleverchalleserver"
+    build:
+      context: .
+      dockerfile: srv.Dockerfile
+    ports:
+      - "50051:50051"
+    environment:
+      DATABASE_IP: "host.docker.internal"
+    depends_on:
+      - db
+    volumes:
+      - .:/app/
+
+networks:
+  default:
+volumes:
+  klever_data:  

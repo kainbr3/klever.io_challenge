@@ -1,0 +1,1 @@
+FROM mcr.microsoft.com/mssql/server:2019-CU5-ubuntu-18.04 as kleverchallenge
