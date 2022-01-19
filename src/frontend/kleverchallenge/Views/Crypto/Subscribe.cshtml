@@ -5,12 +5,39 @@
 
 <div class="text-center">
 
-    <h1 class="display-4">Delete Crypto</h1>
+    <h1 class="display-4">Obbserve Crypto</h1>
+    @Html.Hidden("cryptoId", Model?.Id)
 
     <p>TThis page uses a gRPC service</p>
 
-    <span>@Model?.Id?</span>
-    <span>@Model?.Name?</span>
-    <span>@Model?.Votes?</span>
+    <span id="id">@Model?.Id?</span>
+    <span id="name">@Model?.Name?</span>
+    <span id="token">@Model?.Token?</span>
+    <span id="votes">@Model?.Votes?</span>
 
 </div>
+
+
+@section scripts {
+<script type="text/javascript">
+    window.onload = function () {
+        //GetStream();
+        setTimeout(function(){
+            window.location.reload(1);
+        }, 1000);
+    }
+
+    @* async function GetStream(){
+       var cryptoId = document.getElementById("cryptoId");
+       const options = { method: 'POST' };
+
+        var response = await fetch('/Crypto/TesteStream?cryptoId=' + cryptoId, options);
+        var result = await response.json();
+        console.log(await result);
+        var crypto = result.crypto;
+
+        console.log(crypto);
+        console.log("went here");
+    } *@
+</script>
+}

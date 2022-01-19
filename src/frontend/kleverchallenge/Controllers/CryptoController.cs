@@ -58,19 +58,40 @@ public class CryptoController : Controller
         var obj = new ObserveCryptoRequest{Id = cryptoId};
         ObserveCryptoResponse result;
 
-        using (var response = client.ObserveCrypto(obj))
+        using var response = client.ObserveCrypto(obj);
+
+        while (await response.ResponseStream.MoveNext(CancellationToken.None))
         {
-            while (await response.ResponseStream.MoveNext(CancellationToken.None))
-            {
-                result = response.ResponseStream.Current;
-                model.Id = result.Crypto.Id;
-                model.Name = result.Crypto.Name;
-                model.Votes = result.Crypto.Votes;
-            }
+            result = response.ResponseStream.Current;
+            model.Id = result.Crypto.Id;
+            model.Name = result.Crypto.Name;
+            model.Votes = result.Crypto.Votes;
+            return View(model);   
         }
 
-        return View(model);
+        return View(model);     
     }
+
+    // [HttpPost]
+    // public async Task<CryptoEntity> TesteStream(int cryptoId)
+    // {
+    //     var model = new CryptoEntity();
+    //     var obj = new ObserveCryptoRequest{Id = cryptoId};
+    //     ObserveCryptoResponse result;
+
+    //     using var response = client.ObserveCrypto(obj);
+
+    //     while (await response.ResponseStream.MoveNext(CancellationToken.None))
+    //     {
+    //         result = response.ResponseStream.Current;
+    //         model.Id = result.Crypto.Id;
+    //         model.Name = result.Crypto.Name;
+    //         model.Votes = result.Crypto.Votes;
+    //         return model;   
+    //     }
+
+    //     return model;
+    // }
 
     [HttpPost]
     public async Task<JsonResult> Insert(string name, string token)
