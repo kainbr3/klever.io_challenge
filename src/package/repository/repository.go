@@ -52,11 +52,11 @@ func BuildDatabase(database *sql.DB, seedData bool) {
 	var queries []string
 
 	//Concact all the queries that will be executed
-	queries = append(queries, t.SetDatabase+t.CreateDatabaseQuery, t.SetDatabase+t.DropCryptoTable, t.SetDatabase+t.CreateCryptoTableQuery)
+	queries = append(queries, t.CreateDatabaseQuery, t.DropCryptoTable, t.CreateCryptoTableQuery)
 
 	//Append the Data Seed Query. Use it to populate the empty database setting true as args to BuildDatabase Function
 	if seedData {
-		queries = append(queries, t.SetDatabase+t.SeedCryptoDataQuery)
+		queries = append(queries, t.SeedCryptoDataQuery)
 	}
 
 	//Ignore the index and use only values from the range iteration
@@ -93,7 +93,7 @@ func AddCrypto(database *sql.DB, ctx context.Context, crypto m.CryptoCurrency) (
 	defer cancel()
 
 	//Prepare query
-	query := fmt.Sprintf(t.SetDatabase+t.InsertCrypto, crypto.Name, crypto.Token, crypto.Votes)
+	query := fmt.Sprintf(t.InsertCryptoQuery, crypto.Name, crypto.Token, crypto.Votes)
 
 	//Begin transaction
 	transaction, err := database.BeginTx(ctx, nil)
@@ -153,7 +153,7 @@ func UpdateCrypto(database *sql.DB, ctx context.Context, crypto m.CryptoCurrency
 	defer cancel()
 
 	//Prepare query
-	query := fmt.Sprintf(t.SetDatabase+t.UpdateCryptoQuery, crypto.Name, crypto.Token, crypto.Votes, crypto.Id)
+	query := fmt.Sprintf(t.UpdateCryptoQuery, crypto.Name, crypto.Token, crypto.Votes, crypto.Id)
 
 	//Begin transaction
 	transaction, err := database.BeginTx(ctx, nil)
@@ -347,7 +347,7 @@ func RemoveCryptoById(database *sql.DB, ctx context.Context, cryptoId int) error
 	defer cancel()
 
 	//Prepare query
-	query := fmt.Sprintf(t.SetDatabase+t.DeleteCryptoById, cryptoId)
+	query := fmt.Sprintf(t.DeleteCryptoById, cryptoId)
 
 	//Begin transaction
 	transaction, err := database.BeginTx(ctx, nil)

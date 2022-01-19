@@ -13,7 +13,7 @@ import (
 	t "github.com/kainbr3/klever.io_challenge/src/package/tool"
 	pb "github.com/kainbr3/klever.io_challenge/src/protobuf"
 	grpc "google.golang.org/grpc"
-	ref "google.golang.org/grpc/reflection"
+	"google.golang.org/grpc/reflection"
 )
 
 //Function to return the Server Instance
@@ -27,7 +27,7 @@ type CryptoServiceServer struct {
 	pb.UnimplementedCryptoServiceServer
 }
 
-//Function to Start the Server
+//Function to Register the Started Server
 func (server *CryptoServiceServer) Run() error {
 	//Starts to Listen TCP Port 5001
 	listener, err := net.Listen(t.ServerNetworkType, t.ServerPort)
@@ -37,7 +37,7 @@ func (server *CryptoServiceServer) Run() error {
 
 	//Starts the gRPC Server
 	s := grpc.NewServer()
-	ref.Register(s)
+	reflection.Register(s)
 	pb.RegisterCryptoServiceServer(s, server)
 
 	//Show some message to displat that server is online
@@ -47,6 +47,23 @@ func (server *CryptoServiceServer) Run() error {
 
 	//Enables accepting incoming connections in the Listen port
 	return s.Serve(listener)
+}
+
+//Function to Start the Server
+func Run() {
+	fmt.Print("\n\n")
+	log.Println("======> STARTING THE gRPC SERVER")
+	var cryptoServer *CryptoServiceServer = NewCryptoServiceServer()
+	cryptoServer.conn = repo.DatabaseInit()
+	log.Println("======> Databased Ready: \n", cryptoServer.conn.DB.Stats())
+	fmt.Print("\n\n")
+
+	repo.BuildDatabase(cryptoServer.conn.DB, true) //Enable it everytime Database Build Needed
+	defer cryptoServer.conn.DB.Close()
+
+	if err := cryptoServer.Run(); err != nil {
+		log.Fatalf("======> Failed to serve: \n%v", err)
+	}
 }
 
 //Function to Insert a new Cryptocurrency in the database
@@ -305,21 +322,4 @@ func (server *CryptoServiceServer) ListCryptos(ctx context.Context, request *pb.
 
 	//Return lpopulated list
 	return cryptos_list, nil
-}
-
-//Function to Start the Server
-func Run() {
-	fmt.Print("\n\n")
-	log.Println("======> STARTING THE gRPC SERVER")
-	var cryptoServer *CryptoServiceServer = NewCryptoServiceServer()
-	cryptoServer.conn = repo.DatabaseInit()
-	log.Println("======> Databased Ready: \n", cryptoServer.conn.DB.Stats())
-	fmt.Print("\n\n")
-
-	//repo.BuildDatabase(cryptoServer.conn.DB, true)
-	defer cryptoServer.conn.DB.Close()
-
-	if err := cryptoServer.Run(); err != nil {
-		log.Fatalf("======> Failed to serve: \n%v", err)
-	}
 }
