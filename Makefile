@@ -5,7 +5,7 @@ proto-gen:
 	protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative src/protobuf/service.proto
 
 server:
-	go run main.go
+	DATABASE_IP="localhost" go run main.go
 
 client:
 	go run src/command/client/client.go	
@@ -18,3 +18,12 @@ mod:
 
 web:
 	dotnet watch -p src/frontend/kleverchallenge/kleverchallenge.csproj run
+
+compose:
+	docker compose build
+
+up:
+	docker compose up
+
+list:
+	docker ps

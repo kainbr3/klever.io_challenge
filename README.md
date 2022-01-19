@@ -185,10 +185,14 @@ dotnet watch run
 - [x] Create a Repository Package to handle the Database Persistence
 - [x] Create the Protobuf (Contract) file and generate the PB and gRPC Service
 - [x] Create a Frontend Application to consume the gRPC Services
-- [ ] Create New gRPC Services, including a Streaming to show Crypto Votes in Real Time
-- [ ] Add more views in the Frontend Application to iterate with the new gRPC Services
-- [ ] Create the Unit Tests
-- [ ] Test the Marshal/Unmarshal support
+- [X] Test the Marshal/Unmarshal support
+- [x] Create New gRPC Services, including a Streaming to show Crypto Votes in Real Time
+- [x] Add more views in the Frontend Application to iterate with the new gRPC Services
+- [X] Create the Unit Tests
+
+## TODO List - EXTRA
 - [ ] Deploy the Solution in a free Coud Service
 - [ ] Configure the Cloud Host Machine Snapshots
 - [ ] Create a Graph to show Host Snapshots
+
+<!-- go test -v -cover -->
