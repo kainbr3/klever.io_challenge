@@ -6,7 +6,6 @@ import (
 	"errors"
 	"fmt"
 	"log"
-	"time"
 
 	_ "github.com/denisenkom/go-mssqldb"
 	"github.com/go-playground/validator/v10"
@@ -89,8 +88,8 @@ func AddCrypto(database *sql.DB, ctx context.Context, crypto m.CryptoCurrency) (
 	}
 
 	//Sets a 5 second timeout to prevent being stuck
-	ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
-	defer cancel()
+	// ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
+	// defer cancel()
 
 	//Prepare query
 	query := fmt.Sprintf(t.InsertCryptoQuery, crypto.Name, crypto.Token, crypto.Votes)
@@ -98,7 +97,7 @@ func AddCrypto(database *sql.DB, ctx context.Context, crypto m.CryptoCurrency) (
 	//Begin transaction
 	transaction, err := database.BeginTx(ctx, nil)
 	if err != nil {
-		log.Printf("======> Error starting new Transaction: \n%v", transaction)
+		log.Printf("======> Error starting new Transaction: \n%v \n%v", transaction, err)
 		return &crypto, err
 	}
 
@@ -110,7 +109,7 @@ func AddCrypto(database *sql.DB, ctx context.Context, crypto m.CryptoCurrency) (
 	result := transaction.QueryRowContext(ctx, query).Scan(&id, &name, &token, &votes)
 	if result != nil {
 		transaction.Rollback()
-		log.Printf("======> Error while executing statement: \n%s", query)
+		log.Printf("======> Error while executing statement: \n%s \n%v", query, result)
 		return &crypto, err
 	}
 
@@ -149,8 +148,8 @@ func UpdateCrypto(database *sql.DB, ctx context.Context, crypto m.CryptoCurrency
 	}
 
 	//Sets a 5 second timeout to prevent being stuck
-	ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
-	defer cancel()
+	// ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
+	// defer cancel()
 
 	//Prepare query
 	query := fmt.Sprintf(t.UpdateCryptoQuery, crypto.Name, crypto.Token, crypto.Votes, crypto.Id)
@@ -170,7 +169,7 @@ func UpdateCrypto(database *sql.DB, ctx context.Context, crypto m.CryptoCurrency
 	result := transaction.QueryRowContext(ctx, query).Scan(&id, &name, &token, &votes)
 	if result != nil {
 		transaction.Rollback()
-		log.Printf("======> Error while executing statement: \n%s", query)
+		log.Printf("======> Error while executing statement: \n%s \n%v", query, result)
 		return nil, err
 	}
 
@@ -205,38 +204,39 @@ func FindCryptoById(database *sql.DB, ctx context.Context, cryptoId int) (m.Cryp
 	}
 
 	//Sets a 30 second timeout to prevent being stuck
-	ctx, cancel := context.WithTimeout(ctx, 30*time.Second)
-	defer cancel()
+	// ctx, cancel := context.WithTimeout(ctx, 30*time.Second)
+	// defer cancel()
 
 	//Prepare query
 	query := fmt.Sprintf(t.SelectCryptoByIdQuery, cryptoId)
 
 	//Begin transaction
-	transaction, err := database.BeginTx(ctx, nil)
-	if err != nil {
-		log.Printf("======> Error starting new Transaction")
-		return crypto, err
-	}
+	// transaction, err := database.BeginTx(ctx, nil)
+	// if err != nil {
+	// 	log.Printf("======> Error starting new Transaction")
+	// 	return crypto, err
+	// }
 
 	//Temporary variables to store the RowScan Result
 	var name, token string
 	var id, votes int
 
 	//Execute query and scan the values from the result
-	err = transaction.QueryRowContext(ctx, query).Scan(&id, &name, &token, &votes)
+	// err = transaction.QueryRowContext(ctx, query).Scan(&id, &name, &token, &votes)
+	err := database.QueryRowContext(ctx, query).Scan(&id, &name, &token, &votes)
 	if err != nil {
-		transaction.Rollback()
+		//transaction.Rollback()
 		log.Printf("======> Error while executing statement: \n%s \n%v", query, err)
 		return crypto, err
 	}
 
 	//Commit the transaction
-	err = transaction.Commit()
-	if err != nil {
-		transaction.Rollback()
-		log.Printf("======> Error while commiting changes to database: \n%v", err)
-		return crypto, err
-	}
+	// err = transaction.Commit()
+	// if err != nil {
+	// 	transaction.Rollback()
+	// 	log.Printf("======> Error while commiting changes to database: \n%v", err)
+	// 	return crypto, err
+	// }
 
 	//Creates an instance of CryptoCurrency to return the Crypto Added with all Properties fulfilled
 	crypto = m.CryptoCurrency{
@@ -257,8 +257,8 @@ func UpvoteCryptoById(database *sql.DB, ctx context.Context, cryptoId int) (int,
 	}
 
 	//Sets a 5 second timeout to prevent being stuck
-	ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
-	defer cancel()
+	// ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
+	// defer cancel()
 
 	//Prepare query
 	query := fmt.Sprintf(t.UpvoteCryptoQuery, cryptoId)
@@ -300,8 +300,8 @@ func DownvoteCryptoById(database *sql.DB, ctx context.Context, cryptoId int) (in
 	}
 
 	//Sets a 5 second timeout to prevent being stuck
-	ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
-	defer cancel()
+	// ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
+	// defer cancel()
 
 	//Prepare query
 	query := fmt.Sprintf(t.DownvoteCryptoQuery, cryptoId)
@@ -343,8 +343,8 @@ func RemoveCryptoById(database *sql.DB, ctx context.Context, cryptoId int) error
 	}
 
 	//Sets a 5 second timeout to prevent being stuck
-	ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
-	defer cancel()
+	// ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
+	// defer cancel()
 
 	//Prepare query
 	query := fmt.Sprintf(t.DeleteCryptoById, cryptoId)
@@ -393,9 +393,9 @@ func FindAllCryptos(database *sql.DB, ctx context.Context, sortParameter string)
 	//Query variable to store the specific query according to Parameter
 	var query string
 
-	//Sets a 5 second timeout to prevent being stuck
-	ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
-	defer cancel()
+	// //Sets a 5 second timeout to prevent being stuck
+	// ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
+	// defer cancel()
 
 	//Check the Parameter to Sort the Result
 	switch sortParameter {

@@ -6,7 +6,6 @@ import (
 	"log"
 	"net"
 	"strings"
-	"time"
 
 	m "github.com/kainbr3/klever.io_challenge/src/package/model"
 	repo "github.com/kainbr3/klever.io_challenge/src/package/repository"
@@ -26,6 +25,10 @@ type CryptoServiceServer struct {
 	conn *repo.Klever
 	pb.UnimplementedCryptoServiceServer
 }
+
+var Instance *CryptoServiceServer
+
+var observer chan int
 
 //Function to Register the Started Server
 func (server *CryptoServiceServer) Run() error {
@@ -53,15 +56,17 @@ func (server *CryptoServiceServer) Run() error {
 func Run() {
 	fmt.Print("\n\n")
 	log.Println("======> STARTING THE gRPC SERVER")
-	var cryptoServer *CryptoServiceServer = NewCryptoServiceServer()
-	cryptoServer.conn = repo.DatabaseInit()
-	log.Println("======> Databased Ready: \n", cryptoServer.conn.DB.Stats())
+	Instance = NewCryptoServiceServer()
+	Instance.conn = repo.DatabaseInit()
+	log.Println("======> Databased Ready: \n", Instance.conn.DB.Stats())
 	fmt.Print("\n\n")
 
-	repo.BuildDatabase(cryptoServer.conn.DB, true) //Enable it everytime Database Build Needed
-	defer cryptoServer.conn.DB.Close()
+	repo.BuildDatabase(Instance.conn.DB, true) //Enable it everytime Database Build Needed
+	defer Instance.conn.DB.Close()
 
-	if err := cryptoServer.Run(); err != nil {
+	observer = make(chan int)
+
+	if err := Instance.Run(); err != nil {
 		log.Fatalf("======> Failed to serve: \n%v", err)
 	}
 }
@@ -209,6 +214,8 @@ func (server *CryptoServiceServer) UpvoteCrypto(ctx context.Context, request *pb
 	log.Print("======> Upvote Registred to Crypto Id: ", cryptoId)
 	fmt.Print("\n\n")
 
+	observer <- cryptoId
+
 	//Return the Response with no Errors
 	return &pb.EmptyResponse{}, nil
 }
@@ -230,6 +237,8 @@ func (server *CryptoServiceServer) DownvoteCrypto(ctx context.Context, request *
 	//Print the confirmation message if succeed
 	log.Print("======> Downvote Registred to Crypto Id: ", cryptoId)
 	fmt.Print("\n\n")
+
+	observer <- cryptoId
 
 	//Return the Response with no Errors
 	return &pb.EmptyResponse{}, nil
@@ -257,33 +266,79 @@ func (server *CryptoServiceServer) ObserveCrypto(request *pb.ObserveCryptoReques
 	log.Printf("======> Streaming Crypto ID : %d", request.Id)
 
 	// Start a ticker that executes each 1 seconds
-	timer := time.NewTicker(1 * time.Second)
 
-	for {
-		select {
-		// Exit on stream context done
-		case <-streaming.Context().Done():
-			return nil
-		case <-timer.C:
-			// //Find the Crypto by ID
-			crypto_found, err := repo.FindCryptoById(server.conn.DB, context.Background(), int(request.Id))
-			if err != nil {
-				log.Println("======> Error while retrieving crypto")
-			}
-			// Send the Hardware stats on the stream
-			err = streaming.Send(&pb.ObserveCryptoResponse{
-				Crypto: &pb.Crypto{
-					Id:    int32(crypto_found.Id),
-					Name:  crypto_found.Name,
-					Token: crypto_found.Token,
-					Votes: int32(crypto_found.Votes),
-				},
-			})
-			if err != nil {
-				log.Println(err.Error())
-			}
-		}
+	teste := <-observer
+	fmt.Println(teste)
+
+	crypto_found, err := repo.FindCryptoById(server.conn.DB, context.Background(), teste)
+	if err != nil {
+		log.Println("======> Error while retrieving crypto")
 	}
+
+	err = streaming.Send(&pb.ObserveCryptoResponse{
+		Crypto: &pb.Crypto{
+			Id:    int32(crypto_found.Id),
+			Name:  crypto_found.Name,
+			Token: crypto_found.Token,
+			Votes: int32(crypto_found.Votes),
+		},
+	})
+	if err != nil {
+		log.Println(err.Error())
+	}
+
+	return nil
+
+	// for {
+	// 	select {
+	// 	case id := <-observer:
+	// 		fmt.Println(id)
+	// 		crypto_found, err := repo.FindCryptoById(server.conn.DB, context.Background(), id)
+	// 		if err != nil {
+	// 			log.Println("======> Error while retrieving crypto")
+	// 		}
+
+	// 		err = streaming.Send(&pb.ObserveCryptoResponse{
+	// 			Crypto: &pb.Crypto{
+	// 				Id:    int32(crypto_found.Id),
+	// 				Name:  crypto_found.Name,
+	// 				Token: crypto_found.Token,
+	// 				Votes: int32(crypto_found.Votes),
+	// 			},
+	// 		})
+	// 		if err != nil {
+	// 			log.Println(err.Error())
+	// 		}
+	// 	}
+	// }
+
+	//timer := time.NewTicker(1 * time.Second)
+
+	// for {
+	// 	select {
+	// 	// Exit on stream context done
+	// 	case <-streaming.Context().Done():
+	// 		return nil
+	// 	case <-timer.C:
+	// 		// //Find the Crypto by ID
+	// 		crypto_found, err := repo.FindCryptoById(server.conn.DB, context.Background(), int(request.Id))
+	// 		if err != nil {
+	// 			log.Println("======> Error while retrieving crypto")
+	// 		}
+	// 		// Send the Hardware stats on the stream
+	// 		err = streaming.Send(&pb.ObserveCryptoResponse{
+	// 			Crypto: &pb.Crypto{
+	// 				Id:    int32(crypto_found.Id),
+	// 				Name:  crypto_found.Name,
+	// 				Token: crypto_found.Token,
+	// 				Votes: int32(crypto_found.Votes),
+	// 			},
+	// 		})
+	// 		if err != nil {
+	// 			log.Println(err.Error())
+	// 		}
+	// 	}
+	// }
 }
 
 //Funct to Retrieve a Crypto List

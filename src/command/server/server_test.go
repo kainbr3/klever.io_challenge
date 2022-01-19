@@ -151,30 +151,8 @@ var mockedValidCryptoResponse = pb.CreateNewCryptoResponse{
 }
 
 //Success Case
-// func TestCreateNewCrypto(t *testing.T) {
-// 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-// 	defer cancel()
-
-// 	db, mock := MockDatabase()
-// 	defer db.Close()
-
-// 	mock.ExpectBegin()
-// 	mock.ExpectExec(tool.InsertCryptoQuery).WithArgs(mockedValidCrypto)
-// 	mock.ExpectCommit()
-
-// 	crypto_created, err := repo.AddCrypto(db, ctx, mockedValidCrypto)
-// 	if err != nil {
-// 		log.Println(err)
-// 	}
-
-// 	assert.Equal(t, mockedValidCrypto.Id, crypto_created.Id)
-// 	assert.Equal(t, mockedValidCrypto.Name, crypto_created.Name)
-// 	assert.Equal(t, mockedValidCrypto.Token, crypto_created.Token)
-// 	assert.Equal(t, mockedValidCrypto.Votes, crypto_created.Votes)
-// }
-
-func TestCreateNewCryptoSuccess(t *testing.T) {
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+func TestCreateNewCrypto(t *testing.T) {
+	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
 	defer cancel()
 
 	db, mock := MockDatabase()
@@ -184,10 +162,33 @@ func TestCreateNewCryptoSuccess(t *testing.T) {
 	mock.ExpectExec(tool.InsertCryptoQuery).WithArgs(mockedValidCrypto)
 	mock.ExpectCommit()
 
-	var cryptoServer *CryptoServiceServer = &CryptoServiceServer{}
-	cryptoServer.conn = &repo.Klever{DB: db}
+	crypto_created, err := repo.AddCrypto(db, ctx, mockedValidCrypto)
+	if err != nil {
+		log.Println(err)
+	}
 
-	response, err := cryptoServer.CreateNewCrypto(ctx, &mockedValidCreateCryptoRequest)
+	assert.Equal(t, mockedValidCrypto.Id, crypto_created.Id)
+	assert.Equal(t, mockedValidCrypto.Name, crypto_created.Name)
+	assert.Equal(t, mockedValidCrypto.Token, crypto_created.Token)
+	assert.Equal(t, mockedValidCrypto.Votes, crypto_created.Votes)
+}
+
+func TestCreateNewCryptoSuccess(t *testing.T) {
+	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
+	defer cancel()
+
+	db, mock := MockDatabase()
+	defer db.Close()
+
+	mock.ExpectBegin()
+	mock.ExpectExec(tool.InsertCryptoQuery).WithArgs(mockedValidCrypto)
+	//mock.ExpectExec("use kleverchallenge INSERT INTO cryptoCurrencies (name, token, votes) OUTPUT Inserted.id, Inserted.name, Inserted.token, Inserted.votes VALUES ($1, $2, $3);").WithArgs(mockedValidCrypto.Name, mockedValidCrypto.Token, mockedValidCrypto.Votes)
+	mock.ExpectCommit()
+
+	Instance = &CryptoServiceServer{}
+	Instance.conn = &repo.Klever{DB: db}
+
+	response, err := Instance.CreateNewCrypto(ctx, &mockedValidCreateCryptoRequest)
 	fmt.Println(err)
 	fmt.Println(response)
 	fmt.Println(response.Crypto.GetName())
